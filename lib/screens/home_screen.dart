@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../widget/weather_carousel.dart';
+// import '../widget/weather_carousel.dart';
 import '../widget/location_display.dart';
 import '../widget/bottom_navbar.dart';
+import '../widget/weather_section.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -33,16 +34,17 @@ class _HomeScreenState extends State<HomeScreen> {
           SafeArea(
             child: Column(
               children: [
-                SizedBox(height: 50),
+                SizedBox(height: 50),                
                 LocationDisplay(),
-                SizedBox(height: 20),
-                Expanded(child: WeatherCarousel()),
+                SizedBox(height: 50),
+                WeatherSection(),
+                // Expanded(child: WeatherCarousel()),
               ],
             ),
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavBar(
+      bottomNavigationBar: CustomBottomNavigation(
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() => _currentIndex = index);

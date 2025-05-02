@@ -15,7 +15,6 @@ class MyApp extends StatelessWidget {
       title: 'Weather App',
       initialRoute: '/home',
       routes: {
-
         '/home': (context) => HomeScreen(),
       },
     );

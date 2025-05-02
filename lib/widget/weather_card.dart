@@ -3,45 +3,72 @@ import 'package:flutter/material.dart';
 class WeatherCard extends StatelessWidget {
   final String time;
   final String temperature;
-  final IconData icon;
-  final String condition;
+  final String? chance; 
+  final Widget icon;
+  final bool isNow;
 
   const WeatherCard({
     Key? key,
     required this.time,
     required this.temperature,
     required this.icon,
-    required this.condition,
+    this.chance,
+    this.isNow = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final Color gradientStart = isNow
+        ? const Color(0xFF5B3BB2) 
+        : const Color(0xFF3F2A78);
+    final Color gradientEnd = isNow
+        ? const Color(0xFF7C4DFF)
+        : const Color(0xFF5D3FBF);
+
     return Container(
-      width: 100,
-      margin: const EdgeInsets.symmetric(horizontal: 10),
-      padding: const EdgeInsets.all(10),
+      width: 65,
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 6),
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 125, 122, 129),
-        borderRadius: BorderRadius.circular(17),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(0, 3), 
-          ),
-        ],
+        borderRadius: BorderRadius.circular(22),
+        gradient: LinearGradient(
+          colors: [gradientStart, gradientEnd],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Text(time, style: const TextStyle(fontSize: 16)),
-          const SizedBox(height: 10),
-          Icon(icon, size: 40, color: Colors.blue),
-          const SizedBox(height: 10),
-          Text(temperature, style: const TextStyle(fontSize: 24)),
-          const SizedBox(height: 5),
-          Text(condition, style: const TextStyle(fontSize: 16)),
+          Text(
+            isNow ? "Now" : time,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 6),
+          icon,
+          const SizedBox(height: 4),
+          if (chance != null)
+            Text(
+              chance!,
+              style: const TextStyle(
+                color: Colors.cyanAccent,
+                fontSize: 11,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          const SizedBox(height: 4),
+          Text(
+            "$temperature°",
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
         ],
       ),
     );
