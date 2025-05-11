@@ -32,15 +32,19 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           SafeArea(
+            child : Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            
             child: Column(
               children: [
                 SizedBox(height: 50),                
                 LocationDisplay(),
                 SizedBox(height: 50),
-                WeatherSection(),
+                WeatherExpandableSection(),
                 // Expanded(child: WeatherCarousel()),
               ],
             ),
+            )
           ),
         ],
       ),
