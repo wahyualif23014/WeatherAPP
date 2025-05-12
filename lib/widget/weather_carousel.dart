@@ -12,21 +12,24 @@ class WeatherCarousel extends StatefulWidget {
 class _WeatherCarouselState extends State<WeatherCarousel> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 130, 
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: hourlyWeatherData.length,
-        itemBuilder: (context, index) {
-          final weather = hourlyWeatherData[index];
-          return WeatherCard(
-            time: weather.time,
-            temperature: weather.temperature,
-            icon: weather.weatherIcon,
-            chance: weather.chance,
-            isNow: weather.isNow,
-          );
-        },
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: SizedBox(
+        height: 130,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: hourlyWeatherData.length,
+          itemBuilder: (context, index) {
+            final weather = hourlyWeatherData[index];
+            return WeatherCard(
+              time: weather.time,
+              temperature: weather.temperature,
+              icon: weather.weatherIcon,
+              chance: weather.chance,
+              isNow: weather.isNow,
+            );
+          },
+        ),
       ),
     );
   }

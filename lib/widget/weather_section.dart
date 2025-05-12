@@ -3,7 +3,6 @@ import 'weather_carousel.dart';
 import 'dart:ui';
 
 class WeatherExpandableSection extends StatefulWidget {
-  const WeatherExpandableSection({super.key});
 
   @override
   State<WeatherExpandableSection> createState() =>
@@ -13,8 +12,12 @@ class WeatherExpandableSection extends StatefulWidget {
 class _WeatherExpandableSectionState extends State<WeatherExpandableSection>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  double _dragOffset = 0;
   bool _isExpanded = false;
   double _height = 250;
+
+  final double _dragThreshold = 100; // Minimal jarak drag untuk trigger swipe
+  final double _velocityThreshold = -300; // Minimal kecepatan swipe
 
   @override
   void initState() {
@@ -28,20 +31,32 @@ class _WeatherExpandableSectionState extends State<WeatherExpandableSection>
     super.dispose();
   }
 
+  void _onVerticalDragUpdate(DragUpdateDetails details) {
+    _dragOffset += details.primaryDelta!;
+  }
+
   void _onVerticalDragEnd(DragEndDetails details) {
-    if (details.primaryVelocity != null && details.primaryVelocity! < -200) {
+    if (_dragOffset < -_dragThreshold ||
+        (details.primaryVelocity != null &&
+            details.primaryVelocity! < _velocityThreshold)) {
       setState(() {
         _isExpanded = true;
         _height = MediaQuery.of(context).size.height;
       });
 
-      Future.delayed(const Duration(milliseconds: 300), () {
-        Navigator.of(context).push(_createSmoothTransition());
-        setState(() {
-          _isExpanded = false;
-          _height = 250;
+      Future.delayed(const Duration(milliseconds: 200), () {
+        Navigator.of(context).push(_createSmoothTransition()).then((_) {
+          // Reset kembali setelah pop
+          setState(() {
+            _isExpanded = false;
+            _height = 250;
+            _dragOffset = 0;
+          });
         });
       });
+    } else {
+      // Reset offset jika tidak memenuhi syarat swipe
+      _dragOffset = 0;
     }
   }
 
@@ -49,7 +64,7 @@ class _WeatherExpandableSectionState extends State<WeatherExpandableSection>
     return PageRouteBuilder(
       pageBuilder:
           (context, animation, secondaryAnimation) =>
-              const WeatherDetailExpandedScreen(),
+              WeatherDetailExpandedScreen(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return FadeTransition(
           opacity: animation,
@@ -68,6 +83,7 @@ class _WeatherExpandableSectionState extends State<WeatherExpandableSection>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onVerticalDragUpdate: _onVerticalDragUpdate,
       onVerticalDragEnd: _onVerticalDragEnd,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
@@ -125,16 +141,14 @@ class _WeatherExpandableSectionState extends State<WeatherExpandableSection>
                     ),
                   ],
                 )
-                : const SizedBox.shrink(), // Kosongkan saat animasi transisi berjalan
+                : const SizedBox.shrink(),
       ),
     );
   }
 }
 
 class WeatherDetailExpandedScreen extends StatelessWidget {
-  const WeatherDetailExpandedScreen({super.key});
 
-  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -150,7 +164,8 @@ class WeatherDetailExpandedScreen extends StatelessWidget {
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(24.0),
-              child: Column(
+              child: ListView(
+                shrinkWrap: true,
                 children: [
                   const Icon(
                     Icons.cloud_outlined,
@@ -173,7 +188,7 @@ class WeatherDetailExpandedScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white70, fontSize: 16),
                   ),
-                  const Spacer(),
+                  const SizedBox(height: 200),
                   ElevatedButton.icon(
                     onPressed: () => Navigator.pop(context),
                     icon: const Icon(Icons.arrow_downward),
