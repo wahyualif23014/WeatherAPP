@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wheatherapp/screens/mainMenu_screen.dart';
 
 class CustomBottomNavigation extends StatefulWidget {
   final int currentIndex;
@@ -11,7 +12,8 @@ class CustomBottomNavigation extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CustomBottomNavigation> createState() => _CustomBottomNavigationState();
+  State<CustomBottomNavigation> createState() =>
+      _CustomBottomNavigationState();
 }
 
 class _CustomBottomNavigationState extends State<CustomBottomNavigation>
@@ -65,7 +67,27 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation>
     final isSelected = widget.currentIndex == index;
 
     return GestureDetector(
-      onTap: () => widget.onTap(index),
+      onTap: () {
+        widget.onTap(index);
+
+        // Navigasi ke MainMenuScreen jika index == 2
+        if (index == 2) {
+          Navigator.pushReplacement(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  MainMenuScreen(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
+            ),
+          );
+        }
+      },
       child: ScaleTransition(
         scale: _animations[index],
         child: Column(
@@ -128,7 +150,8 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation>
                     ),
                   ],
                 ),
-                child: const Icon(Icons.add, color: Color(0xFF3D346E), size: 32),
+                child:
+                    const Icon(Icons.add, color: Color(0xFF3D346E), size: 32),
               ),
             ),
           ),
@@ -140,9 +163,15 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation>
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildNavItem(index: 0, icon: const Icon(Icons.navigation, color: Colors.white), label: "Nav"),
-              const SizedBox(width: 70), 
-              _buildNavItem(index: 2, icon: const Icon(Icons.menu, color: Colors.white), label: "Menu"),
+              _buildNavItem(
+                  index: 0,
+                  icon: const Icon(Icons.navigation, color: Colors.white),
+                  label: "Nav"),
+              const SizedBox(width: 70),
+              _buildNavItem(
+                  index: 2,
+                  icon: const Icon(Icons.menu, color: Colors.white),
+                  label: "Menu"),
             ],
           ),
         ),
@@ -163,15 +192,13 @@ class _NavBarPainter extends CustomPainter {
 
     path.moveTo(0, 0);
     path.lineTo(size.width * 0.3, 0);
-    path.quadraticBezierTo(
-        size.width * 0.38, 0, size.width * 0.4, 20);
+    path.quadraticBezierTo(size.width * 0.38, 0, size.width * 0.4, 20);
     path.arcToPoint(
       Offset(size.width * 0.6, 20),
       radius: const Radius.circular(30),
       clockwise: false,
     );
-    path.quadraticBezierTo(
-        size.width * 0.62, 0, size.width * 0.7, 0);
+    path.quadraticBezierTo(size.width * 0.62, 0, size.width * 0.7, 0);
     path.lineTo(size.width, 0);
     path.lineTo(size.width, size.height);
     path.lineTo(0, size.height);

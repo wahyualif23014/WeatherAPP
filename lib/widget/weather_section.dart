@@ -28,47 +28,12 @@ class _WeatherExpandableSectionState extends State<WeatherExpandableSection>
     super.dispose();
   }
 
-  void _onVerticalDragEnd(DragEndDetails details) {
-    if (details.primaryVelocity != null && details.primaryVelocity! < -200) {
-      setState(() {
-        _isExpanded = true;
-        _height = MediaQuery.of(context).size.height;
-      });
 
-      Future.delayed(const Duration(milliseconds: 300), () {
-        Navigator.of(context).push(_createSmoothTransition());
-        setState(() {
-          _isExpanded = false;
-          _height = 250;
-        });
-      });
-    }
-  }
 
-  Route _createSmoothTransition() {
-    return PageRouteBuilder(
-      pageBuilder:
-          (context, animation, secondaryAnimation) =>
-              const WeatherDetailExpandedScreen(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        return FadeTransition(
-          opacity: animation,
-          child: SlideTransition(
-            position: Tween<Offset>(
-              begin: const Offset(0, 0.2),
-              end: Offset.zero,
-            ).animate(animation),
-            child: child,
-          ),
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onVerticalDragEnd: _onVerticalDragEnd,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
@@ -131,68 +96,3 @@ class _WeatherExpandableSectionState extends State<WeatherExpandableSection>
   }
 }
 
-class WeatherDetailExpandedScreen extends StatelessWidget {
-  const WeatherDetailExpandedScreen({super.key});
-
-  @override
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Stack(
-        children: [
-          BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-            child: Container(
-              color: Colors.deepPurple.shade900.withOpacity(0.5),
-            ),
-          ),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                children: [
-                  const Icon(
-                    Icons.cloud_outlined,
-                    size: 100,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    "Cloudy with scattered showers",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  const Text(
-                    "Humidity: 78% | Wind: 12 km/h | Feels like: 26°C",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white70, fontSize: 16),
-                  ),
-                  const Spacer(),
-                  ElevatedButton.icon(
-                    onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.arrow_downward),
-                    label: const Text("Swipe down to return"),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white.withOpacity(0.2),
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 40),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}

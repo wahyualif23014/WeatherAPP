@@ -19,27 +19,30 @@ class _HomeScreenState extends State<HomeScreen> {
       'https://images.unsplash.com/photo-1745521245831-422f7f9140ac?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDN8Ym84alFLVGFFMFl8fGVufDB8fHx8fA%3D%3D';
 
   void _onVerticalDragUpdate(DragUpdateDetails details) {
-    _dragOffset += details.primaryDelta!;
+    _dragOffset += details.primaryDelta!; // Track the drag offset
   }
 
   void _onVerticalDragEnd(DragEndDetails details) {
     if (_dragOffset < -_dragThreshold ||
         (details.primaryVelocity != null &&
             details.primaryVelocity! < _velocityThreshold)) {
+      // Trigger transition when drag ends with enough velocity or distance
       Navigator.of(context).push(_createSmoothTransition());
     }
-    _dragOffset = 0;
+    _dragOffset = 0; // Reset drag offset after handling
   }
 
   Route _createSmoothTransition() {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          WeatherDetailExpandedScreen(),
+      pageBuilder:
+          (context, animation, secondaryAnimation) =>
+              WeatherDetailExpandedScreen(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return FadeTransition(
           opacity: animation,
           child: SlideTransition(
             position: Tween<Offset>(
+              // Create slide animation
               begin: const Offset(0, 0.2),
               end: Offset.zero,
             ).animate(animation),
@@ -59,15 +62,10 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Stack(
           children: [
             Positioned.fill(
-              child: Image.network(
-                backgroundImageUrl,
-                fit: BoxFit.cover,
-              ),
+              child: Image.network(backgroundImageUrl, fit: BoxFit.cover),
             ),
             Positioned.fill(
-              child: Container(
-                color: Color(0xFF2E2961).withOpacity(0.6),
-              ),
+              child: Container(color: Color(0xFF2E2961).withOpacity(0.6)),
             ),
             SafeArea(
               child: Padding(
@@ -77,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(height: 50),
                     LocationDisplay(),
                     SizedBox(height: 50),
-                    WeatherExpandableSection(), // Sekarang hanya tampilan
+                    WeatherExpandableSection(), // Now only display the weather section
                   ],
                 ),
               ),
