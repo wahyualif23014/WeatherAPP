@@ -90,7 +90,7 @@ class _WeatherExpandableSectionState extends State<WeatherExpandableSection>
                     ),
                   ],
                 )
-                : const SizedBox.shrink(), // Kosongkan saat animasi transisi berjalan
+                : const SizedBox.shrink(),
       ),
     );
   }
