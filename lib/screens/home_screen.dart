@@ -26,10 +26,9 @@ class _HomeScreenState extends State<HomeScreen> {
     if (_dragOffset < -_dragThreshold ||
         (details.primaryVelocity != null &&
             details.primaryVelocity! < _velocityThreshold)) {
-      // Trigger transition when drag ends with enough velocity or distance
       Navigator.of(context).push(_createSmoothTransition());
     }
-    _dragOffset = 0; // Reset drag offset after handling
+    _dragOffset = 0; 
   }
 
   Route _createSmoothTransition() {
