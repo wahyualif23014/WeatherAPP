@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'https://images.unsplash.com/photo-1745521245831-422f7f9140ac?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDN8Ym84alFLVGFFMFl8fGVufDB8fHx8fA%3D%3D';
 
   void _onVerticalDragUpdate(DragUpdateDetails details) {
-    _dragOffset += details.primaryDelta!; // Track the drag offset
+    _dragOffset += details.primaryDelta!; 
   }
 
   void _onVerticalDragEnd(DragEndDetails details) {
@@ -41,7 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
           opacity: animation,
           child: SlideTransition(
             position: Tween<Offset>(
-              // Create slide animation
               begin: const Offset(0, 0.2),
               end: Offset.zero,
             ).animate(animation),
@@ -74,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(height: 50),
                     LocationDisplay(),
                     SizedBox(height: 50),
-                    WeatherExpandableSection(), // Now only display the weather section
+                    WeatherExpandableSection(),
                   ],
                 ),
               ),
@@ -101,7 +100,6 @@ class WeatherDetailExpandedScreen extends StatelessWidget {
       backgroundColor: Colors.transparent,
       body: Stack(
         children: [
-          // Blur Background
           BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
             child: Container(
@@ -121,7 +119,6 @@ class WeatherDetailExpandedScreen extends StatelessWidget {
             ),
           ),
 
-          // Weather Detail Content
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32),
