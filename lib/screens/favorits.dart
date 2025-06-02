@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../widget/weather_favorite_card.dart';
+
+// ignore: must_be_immutable
 
 class Favorite extends StatefulWidget {
   const Favorite({super.key});
