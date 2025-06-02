@@ -7,9 +7,17 @@ class MainMenuScreen extends StatelessWidget {
 
   final List<Map<String, dynamic>> menuItems = const [
     {'title': 'Cuaca Sekarang', 'icon': Icons.wb_sunny, 'route': '/home'},
-    {'title': 'Prakiraan Mingguan', 'icon': Icons.calendar_today, 'route': '/forecast'},
+    {
+      'title': 'Prakiraan Mingguan',
+      'icon': Icons.calendar_today,
+      'route': '/forecast',
+    },
     {'title': 'Peta Cuaca', 'icon': Icons.map_outlined, 'route': '/map'},
-    {'title': 'Lokasi Favorit', 'icon': Icons.star_outline, 'route': '/favorites'},
+    {
+      'title': 'Lokasi Favorit',
+      'icon': Icons.star_outline,
+      'route': '/favorits',
+    },
     {'title': 'Pengaturan', 'icon': Icons.settings, 'route': '/settings'},
   ];
 
@@ -37,13 +45,16 @@ class MainMenuScreen extends StatelessWidget {
                   crossAxisCount: 2,
                   crossAxisSpacing: 16,
                   mainAxisSpacing: 16,
-                  children: menuItems.map((item) {
-                    return MenuCard(
-                      title: item['title'],
-                      icon: item['icon'],
-                      onTap: () => Navigator.pushNamed(context, item['route']),
-                    );
-                  }).toList(),
+                  children:
+                      menuItems.map((item) {
+                        return MenuCard(
+                          title: item['title'],
+                          icon: item['icon'],
+                          onTap: () {
+                            Navigator.pushNamed(context, item['route']);
+                          },
+                        );
+                      }).toList(),
                 ),
               ),
             ],
