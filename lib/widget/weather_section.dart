@@ -16,6 +16,13 @@ class _WeatherExpandableSectionState extends State<WeatherExpandableSection>
   bool _isExpanded = false;
   double _height = 250;
 
+  void _toggleExpansion() {
+    setState(() {
+      _isExpanded = !_isExpanded;
+      _height = _isExpanded ? 500 : 250; // Mengatur tinggi saat diperluas atau tidak
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -28,12 +35,10 @@ class _WeatherExpandableSectionState extends State<WeatherExpandableSection>
     super.dispose();
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: _toggleExpansion, // Mengaktifkan toggle ekspansi saat ditekan
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
@@ -48,51 +53,68 @@ class _WeatherExpandableSectionState extends State<WeatherExpandableSection>
             end: Alignment.bottomCenter,
           ),
         ),
-        child:
-            !_isExpanded
-                ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TabBar(
+                controller: _tabController,
+                indicatorColor: Colors.white,
+                indicatorWeight: 2,
+                labelColor: Colors.white,
+                unselectedLabelColor: Colors.white70,
+                labelStyle: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+                tabs: const [
+                  Tab(text: "Hourly Forecast"),
+                  Tab(text: "Weekly Forecast"),
+                ],
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                height: _isExpanded ? 300 : 150, // Sesuaikan tinggi saat diperluas
+                child: TabBarView(
+                  controller: _tabController,
+                  physics: const BouncingScrollPhysics(),
                   children: [
-                    TabBar(
-                      controller: _tabController,
-                      indicatorColor: Colors.white,
-                      indicatorWeight: 2,
-                      labelColor: Colors.white,
-                      unselectedLabelColor: Colors.white70,
-                      labelStyle: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      tabs: const [
-                        Tab(text: "Hourly Forecast"),
-                        Tab(text: "Weekly Forecast"),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    SizedBox(
-                      height: 150,
-                      child: TabBarView(
-                        controller: _tabController,
-                        physics: const BouncingScrollPhysics(),
-                        children: [
-                          const WeatherCarousel(),
-                          const Center(
-                            child: Text(
-                              "Weekly Forecast Coming Soon...",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                        ],
+                    const WeatherCarousel(),
+                    const Center(
+                      child: Text(
+                        "Weekly Forecast Coming Soon...",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                        ),
                       ),
                     ),
                   ],
-                )
-                : const SizedBox.shrink(),
+                ),
+              ),
+              if (_isExpanded) ...[
+                const SizedBox(height: 16),
+                const Text(
+                  "More Details",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  "This section can now be expanded to show more details and is scrollable. Tap to collapse.",
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
       ),
     );
   }
 }
-
