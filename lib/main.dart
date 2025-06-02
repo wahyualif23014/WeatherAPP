@@ -3,7 +3,7 @@ import 'package:wheatherapp/screens/home_screen.dart';
 import 'package:wheatherapp/screens/mainMenu_screen.dart';
 import 'package:wheatherapp/screens/forecast_screen.dart';
 import 'package:wheatherapp/screens/map_screen.dart';
-// import 'package:wheatherapp/screens/favorites_screen.dart';
+import 'package:wheatherapp/screens/favorits.dart';
 // import 'package:wheatherapp/screens/settings_screen.dart';
 
 void main() {
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => HomeScreen(),
         '/forecast': (context) => ForecastScreen(),
         '/map': (context) => MapScreen(),
-        // '/favorites': (context) => FavoritesScreen(),
+        '/favorits': (context) => Favorite(),
         // '/settings': (context) => SettingsScreen(),
       },
       debugShowCheckedModeBanner: false,
