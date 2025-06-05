@@ -7,10 +7,10 @@ import '../widget/glassmorphic_card.dart';
 import '../widget/weather_hero_section.dart';
 import '../widget/weather_metrics_grid.dart';
 import '../widget/hourly_forecast_section.dart';
-// import '../widget/daily_forecast_section.dart';
+import '../widget/daily_forecast_section.dart';
 import '../widget/air_quality_section.dart';
-// import '../widget/sunrise_sunset_section.dart';
-import '../widget/location_display.dart';
+import '../widget/sunrise_sunset_section.dart';
+// import '../widget/location_display.dart';
 import '../widget/bottom_navbar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -126,12 +126,12 @@ class _HomeScreenState extends State<HomeScreen>
                               const SizedBox(height: 25),
                               
                               // Sunrise/Sunset Section
-                              // SunriseSunsetSection(),
+                              SunriseSunsetSection(),
                               
                               const SizedBox(height: 25),
                               
                               // Daily Forecast
-                              // DailyForecastSection(),
+                              DailyForecastSection(),
                               
                               const SizedBox(height: 100),
                             ],
