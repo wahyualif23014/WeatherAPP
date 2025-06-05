@@ -19,7 +19,7 @@ class _WeatherExpandableSectionState extends State<WeatherExpandableSection>
   void _toggleExpansion() {
     setState(() {
       _isExpanded = !_isExpanded;
-      _height = _isExpanded ? 500 : 250; // Mengatur tinggi saat diperluas atau tidak
+      _height = _isExpanded ? 500 : 250; 
     });
   }
 
@@ -38,7 +38,7 @@ class _WeatherExpandableSectionState extends State<WeatherExpandableSection>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _toggleExpansion, // Mengaktifkan toggle ekspansi saat ditekan
+      onTap: _toggleExpansion, 
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
@@ -74,7 +74,7 @@ class _WeatherExpandableSectionState extends State<WeatherExpandableSection>
               ),
               const SizedBox(height: 16),
               SizedBox(
-                height: _isExpanded ? 300 : 150, // Sesuaikan tinggi saat diperluas
+                height: _isExpanded ? 300 : 150, 
                 child: TabBarView(
                   controller: _tabController,
                   physics: const BouncingScrollPhysics(),
