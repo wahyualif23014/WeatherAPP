@@ -130,3 +130,4 @@ class WeatherDetailExpandedScreen extends StatelessWidget {
     );
   }
 }
+
