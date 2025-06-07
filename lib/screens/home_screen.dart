@@ -103,27 +103,22 @@ class _HomeScreenState extends State<HomeScreen>
                               
                               const SizedBox(height: 25),
                               
-                              // Weather Metrics Grid
                               WeatherMetricsGrid(),
                               
                               const SizedBox(height: 25),
                               
-                              // Hourly Forecast
                               HourlyForecastSection(),
                               
                               const SizedBox(height: 25),
                               
-                              // Air Quality Section
                               AirQualitySection(),
                               
                               const SizedBox(height: 25),
                               
-                              // Sunrise/Sunset Section
                               SunriseSunsetSection(),
                               
                               const SizedBox(height: 25),
                               
-                              // Daily Forecast
                               DailyForecastSection(),
                               
                               const SizedBox(height: 100),
@@ -172,8 +167,6 @@ class _HomeScreenState extends State<HomeScreen>
 
   Future<void> _handleRefresh() async {
     HapticFeedback.mediumImpact();
-    // Simulate API call
     await Future.delayed(const Duration(seconds: 2));
-    // Add your weather data refresh logic here
   }
 }
