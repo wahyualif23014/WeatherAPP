@@ -29,6 +29,12 @@ class _FavoriteWeatherScreenState extends State<Favorite> {
       'condition': 'Rainy',
       'icon': Icons.umbrella
     },
+    {
+      'city': 'Indonesia',
+      'temperature': 20,
+      'condition': 'Sunny',
+      'icon': Icons.wb_sunny,
+    },
   ];
 
   @override
