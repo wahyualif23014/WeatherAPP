@@ -10,7 +10,6 @@ import '../widget/hourly_forecast_section.dart';
 import '../widget/daily_forecast_section.dart';
 import '../widget/air_quality_section.dart';
 import '../widget/sunrise_sunset_section.dart';
-// import '../widget/location_display.dart';
 import '../widget/bottom_navbar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -70,10 +69,8 @@ class _HomeScreenState extends State<HomeScreen>
       appBar: _buildAnimatedAppBar(),
       body: Stack(
         children: [
-          // Animated Background
           AnimatedBackground(opacity: _backgroundOpacity),
           
-          // Main Content
           SafeArea(
             child: RefreshIndicator(
               onRefresh: _handleRefresh,
@@ -99,13 +96,9 @@ class _HomeScreenState extends State<HomeScreen>
                           child: Column(
                             children: [
                               const SizedBox(height: 20),
-                              
-                              // Location Display
-                              // AnimatedLocationDisplay(),
-                              
+                                                            
                               const SizedBox(height: 30),
                               
-                              // Weather Hero Section
                               WeatherHeroSection(),
                               
                               const SizedBox(height: 25),
