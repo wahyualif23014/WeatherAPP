@@ -128,10 +128,9 @@ class _MainMenuScreenState extends State<MainMenuScreen>
         ),
         child: Stack(
           children: [
-            // Animated background elements
             _buildAnimatedBackground(),
 
-            // Main content
+            
             SafeArea(
               child: CustomScrollView(
                 controller: _scrollController,
@@ -139,7 +138,6 @@ class _MainMenuScreenState extends State<MainMenuScreen>
                   // Header with parallax effect
                   SliverToBoxAdapter(child: _buildHeader()),
 
-                  // Menu grid
                   SliverPadding(
                     padding: const EdgeInsets.all(24.0),
                     sliver: SliverGrid(
