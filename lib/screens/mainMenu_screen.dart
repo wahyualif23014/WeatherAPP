@@ -59,7 +59,6 @@ class _MainMenuScreenState extends State<MainMenuScreen>
           });
         });
 
-    // Individual card controllers
     _cardControllers = List.generate(
       menuItems.length,
       (index) => AnimationController(
@@ -68,7 +67,6 @@ class _MainMenuScreenState extends State<MainMenuScreen>
       ),
     );
 
-    // Card fade animations
     _cardAnimations =
         _cardControllers.map((controller) {
           return Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -76,7 +74,6 @@ class _MainMenuScreenState extends State<MainMenuScreen>
           );
         }).toList();
 
-    // Card slide animations
     _slideAnimations =
         _cardControllers.map((controller) {
           return Tween<Offset>(
