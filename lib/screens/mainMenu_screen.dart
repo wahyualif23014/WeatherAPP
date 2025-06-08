@@ -84,7 +84,6 @@ class _MainMenuScreenState extends State<MainMenuScreen>
           );
         }).toList();
 
-    // Start animations
     _startAnimations();
   }
 
@@ -92,7 +91,6 @@ class _MainMenuScreenState extends State<MainMenuScreen>
     _fadeController.forward();
     _parallaxController.repeat();
 
-    // Stagger card animations
     for (int i = 0; i < _cardControllers.length; i++) {
       await Future.delayed(Duration(milliseconds: i * 150));
       if (mounted) {
