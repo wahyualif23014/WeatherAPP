@@ -47,13 +47,11 @@ class _MainMenuScreenState extends State<MainMenuScreen>
       vsync: this,
     );
 
-    // Parallax controller
     _parallaxController = AnimationController(
       duration: const Duration(seconds: 20),
       vsync: this,
     );
 
-    // Scroll controller for parallax effect
     _scrollController =
         ScrollController()..addListener(() {
           setState(() {
