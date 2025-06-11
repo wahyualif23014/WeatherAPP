@@ -159,12 +159,10 @@ class _HomeScreenState extends State<HomeScreen>
               
               const SizedBox(height: 25),
               
-              // Weather Metrics Grid
               _buildSection(() => WeatherMetricsGrid()),
               
               const SizedBox(height: 25),
               
-              // Hourly Forecast
               _buildSection(() => HourlyForecastSection()),
               
               const SizedBox(height: 25),
