@@ -219,7 +219,6 @@ class _MainMenuScreenState extends State<MainMenuScreen>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Welcome text with shimmer effect
               ShaderMask(
                 shaderCallback:
                     (bounds) => LinearGradient(
