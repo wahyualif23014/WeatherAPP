@@ -317,10 +317,8 @@ class _MainMenuScreenState extends State<MainMenuScreen>
                     title: menuItems[index]['title'],
                     icon: menuItems[index]['icon'],
                     onTap: () {
-                      // Add haptic feedback
                       HapticFeedback.lightImpact();
 
-                      // Add scale animation on tap
                       _cardControllers[index].reverse().then((_) {
                         _cardControllers[index].forward();
                       });
