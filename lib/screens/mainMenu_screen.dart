@@ -135,7 +135,6 @@ class _MainMenuScreenState extends State<MainMenuScreen>
               child: CustomScrollView(
                 controller: _scrollController,
                 slivers: [
-                  // Header with parallax effect
                   SliverToBoxAdapter(child: _buildHeader()),
 
                   SliverPadding(
