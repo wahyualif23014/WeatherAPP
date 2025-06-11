@@ -119,7 +119,6 @@ class _HomeScreenState extends State<HomeScreen>
             ),
           ),
           
-          // Loading overlay
           if (_isRefreshing) _buildLoadingOverlay(),
         ],
       ),
