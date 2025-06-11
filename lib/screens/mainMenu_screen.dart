@@ -313,7 +313,6 @@ class _MainMenuScreenState extends State<MainMenuScreen>
                     ),
                   ),
 
-                  // Menu card content
                   MenuCard(
                     title: menuItems[index]['title'],
                     icon: menuItems[index]['icon'],
