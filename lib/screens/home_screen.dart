@@ -96,10 +96,8 @@ class _HomeScreenState extends State<HomeScreen>
       appBar: _buildAnimatedAppBar(),
       body: Stack(
         children: [
-          // Background with error handling
           _buildBackground(),
           
-          // Main content
           SafeArea(
             child: RefreshIndicator(
               onRefresh: _handleRefresh,
