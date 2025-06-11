@@ -245,7 +245,6 @@ class _MainMenuScreenState extends State<MainMenuScreen>
 
               const SizedBox(height: 8),
 
-              // Subtitle
               Text(
                 'Pilih layanan yang Anda butuhkan',
                 style: TextStyle(
@@ -257,7 +256,6 @@ class _MainMenuScreenState extends State<MainMenuScreen>
 
               const SizedBox(height: 20),
 
-              // Decorative line
               Container(
                 height: 3,
                 width: 60,
@@ -297,7 +295,6 @@ class _MainMenuScreenState extends State<MainMenuScreen>
               borderRadius: BorderRadius.circular(20),
               child: Stack(
                 children: [
-                  // Glass morphism background
                   Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
