@@ -154,7 +154,6 @@ class _MainMenuScreenState extends State<MainMenuScreen>
                     ),
                   ),
 
-                  // Bottom spacing
                   const SliverToBoxAdapter(child: SizedBox(height: 50)),
                 ],
               ),
@@ -171,7 +170,6 @@ class _MainMenuScreenState extends State<MainMenuScreen>
       builder: (context, child) {
         return Stack(
           children: [
-            // Floating particles
             ...List.generate(6, (index) {
               final offset =
                   (_parallaxController.value * 360 + index * 60) % 360;
@@ -196,7 +194,6 @@ class _MainMenuScreenState extends State<MainMenuScreen>
               );
             }),
 
-            // Gradient overlays
             Container(
               decoration: BoxDecoration(
                 gradient: RadialGradient(
