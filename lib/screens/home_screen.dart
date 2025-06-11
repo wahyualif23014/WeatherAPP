@@ -155,7 +155,6 @@ class _HomeScreenState extends State<HomeScreen>
             children: [
               const SizedBox(height: 20),
               
-              // Weather Hero Section with error boundary
               _buildSection(() => WeatherHeroSection()),
               
               const SizedBox(height: 25),
