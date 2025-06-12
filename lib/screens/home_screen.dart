@@ -312,10 +312,8 @@ class _HomeScreenState extends State<HomeScreen>
     try {
       HapticFeedback.mediumImpact();
       
-      // Simulate data refresh
       await Future.delayed(const Duration(seconds: 2));
       
-      // Here you would typically call your data refresh methods
       // await weatherService.refreshWeatherData();
       
     } catch (e) {
