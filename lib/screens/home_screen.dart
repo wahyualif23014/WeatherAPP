@@ -175,7 +175,6 @@ class _HomeScreenState extends State<HomeScreen>
               
               const SizedBox(height: 25),
               
-              // Daily Forecast
               _buildSection(() => DailyForecastSection()),
               
               const SizedBox(height: 100),
