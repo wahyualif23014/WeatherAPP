@@ -171,7 +171,6 @@ class _HomeScreenState extends State<HomeScreen>
               
               const SizedBox(height: 25),
               
-              // Sunrise Sunset
               _buildSection(() => SunriseSunsetSection()),
               
               const SizedBox(height: 25),
