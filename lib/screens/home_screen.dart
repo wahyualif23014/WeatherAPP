@@ -269,7 +269,6 @@ class _HomeScreenState extends State<HomeScreen>
         },
       );
     } catch (e) {
-      // Fallback bottom navigation
       return Container(
         height: 80,
         color: Colors.black.withOpacity(0.8),
