@@ -317,7 +317,6 @@ class _HomeScreenState extends State<HomeScreen>
       // await weatherService.refreshWeatherData();
       
     } catch (e) {
-      // Handle refresh error
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
