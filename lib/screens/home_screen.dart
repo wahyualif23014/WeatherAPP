@@ -305,7 +305,7 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Future<void> _handleRefresh() async {
-    if (_isRefreshing) return; // Prevent multiple refresh
+    if (_isRefreshing) return; 
     
     setState(() => _isRefreshing = true);
     
