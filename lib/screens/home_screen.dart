@@ -189,7 +189,6 @@ class _HomeScreenState extends State<HomeScreen>
     try {
       return builder();
     } catch (e) {
-      // Error handling for individual sections
       return Container(
         height: 120,
         decoration: BoxDecoration(
