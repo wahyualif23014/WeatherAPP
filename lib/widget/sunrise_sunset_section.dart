@@ -169,7 +169,6 @@ class _SunriseSunsetSectionState extends State<SunriseSunsetSection>
                 
                 const SizedBox(height: 16),
                 
-                // Daylight Duration
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
@@ -270,7 +269,6 @@ class SunArcPainter extends CustomPainter {
     final center = Offset(size.width / 2, size.height);
     final radius = size.width * 0.4;
 
-    // Draw arc path
     final arcPath = Path();
     arcPath.addArc(
       Rect.fromCircle(center: center, radius: radius),
