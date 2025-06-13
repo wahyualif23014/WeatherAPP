@@ -64,7 +64,6 @@ class _AnimatedBackgroundState extends State<AnimatedBackground>
           ),
         ),
         
-        // Animated Overlay
         AnimatedBuilder(
           animation: _gradientController,
           builder: (context, child) {
@@ -91,7 +90,6 @@ class _AnimatedBackgroundState extends State<AnimatedBackground>
           },
         ),
         
-        // Floating Particles
         ...List.generate(15, (index) => _buildFloatingParticle(index)),
       ],
     );
