@@ -279,13 +279,11 @@ class SunArcPainter extends CustomPainter {
     paint.color = Colors.white.withOpacity(0.3);
     canvas.drawPath(arcPath, paint);
 
-    // Draw sun position
     final sunAngle = math.pi + (sunPosition * math.pi);
     final sunX = center.dx + radius * math.cos(sunAngle);
     final sunY = center.dy + radius * math.sin(sunAngle);
     final sunCenter = Offset(sunX, sunY);
 
-    // Draw sun glow
     final glowPaint = Paint()
       ..color = Colors.orange.withOpacity(0.3 * glowValue)
       ..style = PaintingStyle.fill;
