@@ -70,7 +70,6 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation>
       onTap: () {
         widget.onTap(index);
 
-        // Navigasi ke MainMenuScreen jika index == 2
         if (index == 2) {
           Navigator.pushReplacement(
             context,

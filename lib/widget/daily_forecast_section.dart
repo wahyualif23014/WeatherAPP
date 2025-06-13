@@ -12,7 +12,6 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
   late AnimationController _animationController;
   late List<Animation<double>> _itemAnimations;
 
-  // Sample data - replace with your actual data
   final List<DailyWeatherData> forecastData = [
     DailyWeatherData(
       day: 'Today',
