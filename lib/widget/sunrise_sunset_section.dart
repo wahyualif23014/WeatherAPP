@@ -290,14 +290,12 @@ class SunArcPainter extends CustomPainter {
     
     canvas.drawCircle(sunCenter, 20 * glowValue, glowPaint);
 
-    // Draw sun
     final sunPaint = Paint()
       ..color = Colors.orange
       ..style = PaintingStyle.fill;
     
     canvas.drawCircle(sunCenter, 8, sunPaint);
 
-    // Draw horizon line
     final horizonPaint = Paint()
       ..color = Colors.white.withOpacity(0.5)
       ..strokeWidth = 1;
