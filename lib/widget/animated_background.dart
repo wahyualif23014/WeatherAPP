@@ -1,4 +1,3 @@
-// widgets/animated_background.dart
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
@@ -44,7 +43,6 @@ class _AnimatedBackgroundState extends State<AnimatedBackground>
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // Background Image
         Positioned.fill(
           child: Image.network(
             backgroundImageUrl,
