@@ -58,9 +58,9 @@ class _SunriseSunsetSectionState extends State<SunriseSunsetSection>
 
   double _getSunPosition() {
 
-    int sunriseMinutes = 6 * 60 + 24; // 06:24 in minutes
-    int sunsetMinutes = 18 * 60 + 42; // 18:42 in minutes
-    int currentMinutes = 14 * 60 + 30; // 14:30 in minutes
+    int sunriseMinutes = 6 * 60 + 24;
+    int sunsetMinutes = 18 * 60 + 42; 
+    int currentMinutes = 14 * 60 + 30; 
     
     if (currentMinutes < sunriseMinutes) return 0.0;
     if (currentMinutes > sunsetMinutes) return 1.0;
@@ -130,7 +130,6 @@ class _SunriseSunsetSectionState extends State<SunriseSunsetSection>
                 
                 const SizedBox(height: 24),
                 
-                // Sun Arc Visualization
                 AnimatedBuilder(
                   animation: Listenable.merge([_sunAnimation, _glowAnimation]),
                   builder: (context, child) {
@@ -150,7 +149,6 @@ class _SunriseSunsetSectionState extends State<SunriseSunsetSection>
                 
                 const SizedBox(height: 24),
                 
-                // Sunrise and Sunset Times
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
