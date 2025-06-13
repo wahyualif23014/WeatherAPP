@@ -318,7 +318,6 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
             ),
           ),
           
-          // Temperature
           Expanded(
             flex: 2,
             child: Row(

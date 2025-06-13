@@ -15,7 +15,6 @@ class _SunriseSunsetSectionState extends State<SunriseSunsetSection>
   late Animation<double> _sunAnimation;
   late Animation<double> _glowAnimation;
 
-  // Sample data - replace with your actual data
   final String sunriseTime = "06:24";
   final String sunsetTime = "18:42";
   final String currentTime = "14:30";
@@ -58,8 +57,7 @@ class _SunriseSunsetSectionState extends State<SunriseSunsetSection>
   }
 
   double _getSunPosition() {
-    // Calculate sun position based on current time
-    // This is a simplified calculation
+
     int sunriseMinutes = 6 * 60 + 24; // 06:24 in minutes
     int sunsetMinutes = 18 * 60 + 42; // 18:42 in minutes
     int currentMinutes = 14 * 60 + 30; // 14:30 in minutes
