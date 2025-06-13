@@ -1,4 +1,3 @@
-// daily_forecast_section.dart
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
@@ -205,7 +204,6 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
                 
                 const SizedBox(height: 24),
                 
-                // Daily forecast items
                 ...forecastData.asMap().entries.map((entry) {
                   final index = entry.key;
                   final data = entry.value;
@@ -264,7 +262,6 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
             ),
           ),
           
-          // Weather Icon and Condition
           Expanded(
             flex: 3,
             child: Row(
