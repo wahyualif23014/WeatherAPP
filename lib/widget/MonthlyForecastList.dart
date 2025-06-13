@@ -35,7 +35,7 @@ class MonthlyForecastList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Prakiraan Bulanan',
+            'monthly forecast',
             style: TextStyle(
               fontSize: 20,
               color: Colors.white,
