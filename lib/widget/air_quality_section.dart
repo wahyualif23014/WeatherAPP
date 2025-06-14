@@ -107,7 +107,6 @@ class _AirQualitySectionState extends State<AirQualitySection>
           },
           child: Row(
             children: [
-              // AQI Circular Progress
               Expanded(
                 flex: 2,
                 child: Container(
@@ -115,7 +114,6 @@ class _AirQualitySectionState extends State<AirQualitySection>
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      // Background Circle
                       AnimatedBuilder(
                         animation: _pulseAnimation,
                         builder: (context, child) {
