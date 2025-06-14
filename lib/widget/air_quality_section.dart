@@ -138,7 +138,6 @@ class _AirQualitySectionState extends State<AirQualitySection>
                         },
                       ),
                       
-                      // Progress Circle
                       AnimatedBuilder(
                         animation: _progressAnimation,
                         builder: (context, child) {
