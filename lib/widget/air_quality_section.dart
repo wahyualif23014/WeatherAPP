@@ -1,4 +1,3 @@
-// widgets/air_quality_section.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'glassmorphic_card.dart';
@@ -16,7 +15,7 @@ class _AirQualitySectionState extends State<AirQualitySection>
   late Animation<double> _progressAnimation;
   late Animation<double> _pulseAnimation;
   
-  final int aqiValue = 42; // Good air quality
+  final int aqiValue = 42; 
   final double maxAqi = 300;
 
   @override
