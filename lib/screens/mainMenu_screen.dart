@@ -23,19 +23,19 @@ class _MainMenuScreenState extends State<MainMenuScreen>
   double _scrollOffset = 0.0;
 
   final List<Map<String, dynamic>> menuItems = const [
-    {'title': 'Cuaca Sekarang', 'icon': Icons.wb_sunny, 'route': '/home'},
+    {'title': 'the weather now', 'icon': Icons.wb_sunny, 'route': '/home'},
     {
-      'title': 'Prakiraan Mingguan',
+      'title': 'weekly forecast',
       'icon': Icons.calendar_today,
       'route': '/forecast',
     },
-    {'title': 'Peta Cuaca', 'icon': Icons.map_outlined, 'route': '/map'},
+    {'title': 'weather map', 'icon': Icons.map_outlined, 'route': '/map'},
     {
-      'title': 'Lokasi Favorit',
+      'title': 'favorite locations',
       'icon': Icons.star_outline,
       'route': '/favorits',
     },
-    {'title': 'Pengaturan', 'icon': Icons.settings, 'route': '/settings'},
+    {'title': 'settings', 'icon': Icons.settings, 'route': '/settings'},
   ];
 
   @override
