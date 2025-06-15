@@ -233,7 +233,7 @@ class _MainMenuScreenState extends State<MainMenuScreen>
                       ),
                     ).createShader(bounds),
                 child: const Text(
-                  'Menu Utama',
+                  'Weather App',
                   style: TextStyle(
                     fontSize: 36,
                     fontWeight: FontWeight.w800,
