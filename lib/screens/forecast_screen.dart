@@ -12,16 +12,17 @@ class ForecastScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFF121212),
       appBar: AppBar(
-        title: const Text("Prakiraan Mingguan"),
+        title: const Text("Weekly forecast"),
         backgroundColor: Colors.deepPurple[900],
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text(
-              "Cuaca Minggu Ini",
+              "This Week's Weather",
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -32,12 +33,12 @@ class ForecastScreen extends StatelessWidget {
             const WeeklyForecastList(),
             const SizedBox(height: 24),
             const Text(
-              "Detail & Analisa Cuaca",
+              "Detail & Analysis weather",
               style: TextStyle(fontSize: 18, color: Colors.white70),
             ),
             const SizedBox(height: 12),
             Text(
-              "Analisa tren suhu dan kelembaban akan ditampilkan di sini...",
+              "Analysis of temperature and humidity trends will be displayed here...",
               style: TextStyle(fontSize: 16, color: Colors.grey[400]),
             ),
             const SizedBox(height: 24),
