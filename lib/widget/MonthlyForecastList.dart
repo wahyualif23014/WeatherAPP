@@ -1,5 +1,5 @@
-// widgets/monthly_forecast_list.dart
 import 'package:flutter/material.dart';
+import 'dart:ui';
 
 class MonthlyForecastList extends StatelessWidget {
   const MonthlyForecastList({super.key});
@@ -25,11 +25,18 @@ class MonthlyForecastList extends StatelessWidget {
       margin: const EdgeInsets.only(top: 16),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       decoration: BoxDecoration(
-        color: Colors.deepPurple[800],
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(24),
           topRight: Radius.circular(24),
         ),
+        color: Colors.white.withOpacity(0.05),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          )
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,8 +60,19 @@ class MonthlyForecastList extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(
                       vertical: 12, horizontal: 16),
                   decoration: BoxDecoration(
-                    color: Colors.deepPurple[600],
+                    color: Colors.white.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(12),
+                    // 💡 Efek blur tambahan untuk item
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 6,
+                        spreadRadius: -3,
+                      )
+                    ],
+                    border: Border.all(
+                      color: Colors.white.withOpacity(0.2),
+                    ),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
