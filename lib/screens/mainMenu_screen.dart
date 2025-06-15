@@ -246,7 +246,7 @@ class _MainMenuScreenState extends State<MainMenuScreen>
               const SizedBox(height: 8),
 
               Text(
-                'Pilih layanan yang Anda butuhkan',
+                'select the menu you need',
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.white.withOpacity(0.7),
