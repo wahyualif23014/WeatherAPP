@@ -97,7 +97,7 @@ class _WeatherFavoriteCardState extends State<WeatherFavoriteCard>
                             width: 32,
                             height: 32,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(32),
                             ),
                             child: Lottie.network(
                               'https://lottie.host/026e82a4-5a6d-4fc3-9b4f-9af888676935/kAbseRoblD.json', 
