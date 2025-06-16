@@ -6,6 +6,8 @@ import '../widget/animated_backgrounds.dart';
 import '../widget/settings_section.dart';
 
 class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
+
 
   @override
   Widget build(BuildContext context) {

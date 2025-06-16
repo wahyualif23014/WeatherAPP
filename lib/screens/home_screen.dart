@@ -1,7 +1,6 @@
 // home_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:ui';
 import '../widget/animated_background.dart';
 // import '../widget/glassmorphic_card.dart';
 import '../widget/weather_hero_section.dart';
