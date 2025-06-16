@@ -67,7 +67,6 @@ class _HomeScreenState extends State<HomeScreen>
     final newOpacity = (0.7 + (offset / 300).clamp(0.0, 0.3));
     final newScrollState = offset > 50;
     
-    // Only update if there's a meaningful change to reduce rebuilds
     if ((_backgroundOpacity - newOpacity).abs() > 0.01 || 
         _isScrolled != newScrollState) {
       setState(() {
@@ -79,7 +78,6 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   void dispose() {
-    // Remove listener before disposing
     _scrollController.removeListener(_onScroll);
     _fadeController.dispose();
     _slideController.dispose();
