@@ -40,7 +40,7 @@ class _FavoriteWeatherScreenState extends State<Favorite> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.grey[850],
       appBar: AppBar(
         title: const Text('Favorite Weather'),
         backgroundColor: Colors.grey[900],
