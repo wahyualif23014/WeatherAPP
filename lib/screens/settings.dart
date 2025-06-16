@@ -15,10 +15,7 @@ class SettingsScreen extends StatelessWidget {
       appBar: _buildAppBar(context),
       body: Stack(
         children: [
-          // Latar belakang beranimasi
-          const AnimatedBackground(opacity: 0.6),
-
-          // Konten utama dengan scroll
+          const AnimatedBackground(opacity: 0.7),
           SafeArea(
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(), // Efek iOS-like
