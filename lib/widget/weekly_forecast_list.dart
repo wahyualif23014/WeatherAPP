@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:ui';
 
 class WeeklyForecastList extends StatelessWidget {
   const WeeklyForecastList({super.key});
