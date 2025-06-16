@@ -93,10 +93,12 @@ class _WeatherFavoriteCardState extends State<WeatherFavoriteCard>
                     children: [
                       Row(
                         children: [
-                          // 💡 Lottie Animasi dengan Placeholder & Error Handling
-                          SizedBox(
+                          Container(
                             width: 32,
                             height: 32,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
                             child: Lottie.network(
                               'https://lottie.host/026e82a4-5a6d-4fc3-9b4f-9af888676935/kAbseRoblD.json', 
                               fit: BoxFit.contain,
