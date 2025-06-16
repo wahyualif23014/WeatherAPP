@@ -1,4 +1,3 @@
-// widgets/weekly_forecast_list.dart
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
