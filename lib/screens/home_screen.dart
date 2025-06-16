@@ -48,12 +48,10 @@ class _HomeScreenState extends State<HomeScreen>
     );
     _scrollController = ScrollController();
     
-    // Add scroll listener with null check
     _scrollController.addListener(_onScroll);
   }
 
   void _startAnimations() {
-    // Add delay for better performance
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         _fadeController.forward();
