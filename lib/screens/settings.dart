@@ -1,8 +1,6 @@
 // settings_screen.dart
 import 'package:flutter/material.dart';
-import 'dart:ui';
 import 'package:flutter/services.dart';
-import '../widget/glasmorphic_card.dart';
 import '../widget/settings_item.dart';
 import '../widget/animated_backgrounds.dart';
 import '../widget/settings_section.dart';
@@ -81,7 +79,7 @@ class SettingsScreen extends StatelessWidget {
                           onTap: null),
                     ],
                   ),
-                  const SizedBox(height: 100), // Spasi akhir agar tidak tertutup bottom nav
+                  const SizedBox(height: 100), 
                 ],
               ),
             ),
