@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../widget/menu_card.dart';
 import '../theme/appcolor.dart';
 import 'package:flutter/services.dart';
+import '../screens/settings.dart';
 
 class MainMenuScreen extends StatefulWidget {
   const MainMenuScreen({super.key});
