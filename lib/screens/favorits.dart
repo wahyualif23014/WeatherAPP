@@ -1,6 +1,6 @@
+// favorite.dart
 import 'package:flutter/material.dart';
 import '../widget/weather_favorite_card.dart';
-
 
 class Favorite extends StatefulWidget {
   const Favorite({super.key});
@@ -40,25 +40,38 @@ class _FavoriteWeatherScreenState extends State<Favorite> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[850],
       appBar: AppBar(
         title: const Text('Favorite Weather'),
-        backgroundColor: Colors.grey[900],
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView.builder(
-          itemCount: favoriteLocations.length,
-          itemBuilder: (context, index) {
-            final location = favoriteLocations[index];
-            return WeatherFavoriteCard(
-              city: location['city'],
-              temperature: location['temperature'],
-              condition: location['condition'],
-              icon: location['icon'],
-            );
-          },
+      extendBodyBehindAppBar: true,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFF1A1A2E),
+              Color(0xFF16213E),
+            ],
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ListView.builder(
+            itemCount: favoriteLocations.length,
+            itemBuilder: (context, index) {
+              final location = favoriteLocations[index];
+              return WeatherFavoriteCard(
+                city: location['city'],
+                temperature: location['temperature'],
+                condition: location['condition'],
+                icon: location['icon'],
+              );
+            },
+          ),
         ),
       ),
     );
