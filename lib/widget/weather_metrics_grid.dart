@@ -1,6 +1,7 @@
+// widgets/weather_metrics_grid.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'glassmorphic_card.dart';
+import 'glassmorphic_card.dart'; // Pastikan file ini tersedia
 
 class WeatherMetricsGrid extends StatefulWidget {
   @override
@@ -66,6 +67,7 @@ class _WeatherMetricsGridState extends State<WeatherMetricsGrid>
   @override
   void initState() {
     super.initState();
+
     _controllers = List.generate(
       metrics.length,
       (index) => AnimationController(
@@ -73,7 +75,7 @@ class _WeatherMetricsGridState extends State<WeatherMetricsGrid>
         vsync: this,
       ),
     );
-    
+
     _animations = _controllers.map((controller) {
       return Tween<double>(
         begin: 0,
@@ -83,8 +85,10 @@ class _WeatherMetricsGridState extends State<WeatherMetricsGrid>
         curve: Curves.easeOutBack,
       ));
     }).toList();
-    
-    _startAnimations();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _startAnimations();
+    });
   }
 
   void _startAnimations() {
@@ -107,11 +111,14 @@ class _WeatherMetricsGridState extends State<WeatherMetricsGrid>
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    int crossAxisCount = screenWidth < 600 ? 2 : 3;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 4, bottom: 15),
+        const Padding(
+          padding: EdgeInsets.only(left: 4, bottom: 15),
           child: Text(
             "Weather Details",
             style: TextStyle(
@@ -125,8 +132,8 @@ class _WeatherMetricsGridState extends State<WeatherMetricsGrid>
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: crossAxisCount,
             childAspectRatio: 1.1,
             crossAxisSpacing: 15,
             mainAxisSpacing: 15,
@@ -155,90 +162,106 @@ class _WeatherMetricsGridState extends State<WeatherMetricsGrid>
   }
 
   Widget _buildMetricCard(WeatherMetric metric, int index) {
-    return AnimatedGlassmorphicCard(
-      padding: const EdgeInsets.all(16),
-      onTap: () {
-        HapticFeedback.lightImpact();
-        _controllers[index].reverse().then((_) {
-          _controllers[index].forward();
-        });
-      },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: metric.color.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Icon(
-                  metric.icon,
-                  color: metric.color,
-                  size: 24,
-                ),
-              ),
-              Text(
-                metric.unit,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.white.withOpacity(0.6),
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-          
-          const SizedBox(height: 12),
-          
-          Text(
-            metric.title,
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.white.withOpacity(0.8),
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                metric.value,
-                style: const TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                ),
-              ),
-              if (metric.unit.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 2, left: 2),
-                  child: Text(
-                    metric.unit,
+    return Tooltip(
+      message: "${metric.title}: ${metric.value} ${metric.unit}\n${metric.description}",
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.7),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      textStyle: const TextStyle(color: Colors.white),
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: () async {
+            HapticFeedback.lightImpact();
+            if (mounted && _controllers[index].isAnimating) {
+              await _controllers[index].reverse();
+            }
+            if (mounted) {
+              _controllers[index].forward(from: 0.0);
+            }
+          },
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            transform: Matrix4.identity(),
+            child: AnimatedGlassmorphicCard(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: metric.color.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Icon(
+                          metric.icon,
+                          color: metric.color,
+                          size: 24,
+                        ),
+                      ),
+                      Text(
+                        metric.unit,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.white.withOpacity(0.6),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    metric.title,
                     style: TextStyle(
                       fontSize: 14,
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withOpacity(0.8),
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                ),
-            ],
-          ),
-          
-          Text(
-            metric.description,
-            style: TextStyle(
-              fontSize: 12,
-              color: metric.color.withOpacity(0.8),
-              fontWeight: FontWeight.w500,
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        metric.value,
+                        style: const TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                      ),
+                      if (metric.unit.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 2, left: 2),
+                          child: Text(
+                            metric.unit,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white.withOpacity(0.7),
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                  Text(
+                    metric.description,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: metric.color.withOpacity(0.8),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }

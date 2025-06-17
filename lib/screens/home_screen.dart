@@ -1,8 +1,7 @@
-// home_screen.dart
+// screens/home_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../widget/animated_background.dart';
-// import '../widget/glassmorphic_card.dart';
 import '../widget/weather_hero_section.dart';
 import '../widget/weather_metrics_grid.dart';
 import '../widget/hourly_forecast_section.dart';
@@ -24,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen>
   late AnimationController _fadeController;
   late AnimationController _slideController;
   late ScrollController _scrollController;
-  
+
   double _backgroundOpacity = 0.7;
   bool _isScrolled = false;
   bool _isRefreshing = false;
@@ -46,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen>
       vsync: this,
     );
     _scrollController = ScrollController();
-    
+
     _scrollController.addListener(_onScroll);
   }
 
@@ -61,12 +60,12 @@ class _HomeScreenState extends State<HomeScreen>
 
   void _onScroll() {
     if (!mounted) return;
-    
+
     final offset = _scrollController.offset;
     final newOpacity = (0.7 + (offset / 300).clamp(0.0, 0.3));
     final newScrollState = offset > 50;
-    
-    if ((_backgroundOpacity - newOpacity).abs() > 0.01 || 
+
+    if ((_backgroundOpacity - newOpacity).abs() > 0.01 ||
         _isScrolled != newScrollState) {
       setState(() {
         _backgroundOpacity = newOpacity;
@@ -92,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen>
       body: Stack(
         children: [
           _buildBackground(),
-          
+
           SafeArea(
             child: RefreshIndicator(
               onRefresh: _handleRefresh,
@@ -113,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen>
               ),
             ),
           ),
-          
+
           if (_isRefreshing) _buildLoadingOverlay(),
         ],
       ),
@@ -148,30 +147,30 @@ class _HomeScreenState extends State<HomeScreen>
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             children: [
-              const SizedBox(height: 20),
-              
+              const SizedBox(height: 30),
+
               _buildSection(() => WeatherHeroSection()),
-              
+
               const SizedBox(height: 25),
-              
+
               _buildSection(() => WeatherMetricsGrid()),
-              
+
               const SizedBox(height: 25),
-              
+
               _buildSection(() => HourlyForecastSection()),
-              
+
               const SizedBox(height: 25),
-              
+
               _buildSection(() => AirQualitySection()),
-              
+
               const SizedBox(height: 25),
-              
+
               _buildSection(() => SunriseSunsetSection()),
-              
+
               const SizedBox(height: 25),
-              
+
               _buildSection(() => DailyForecastSection()),
-              
+
               const SizedBox(height: 100),
             ],
           ),
@@ -182,38 +181,44 @@ class _HomeScreenState extends State<HomeScreen>
 
   Widget _buildSection(Widget Function() builder) {
     try {
-      return builder();
-    } catch (e) {
-      return Container(
-        height: 120,
-        decoration: BoxDecoration(
-          color: Colors.red.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.red.withOpacity(0.3)),
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.error_outline,
-                color: Colors.red.withOpacity(0.7),
-                size: 32,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Section Error',
-                style: TextStyle(
-                  color: Colors.red.withOpacity(0.8),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
+      final widget = builder();
+      return widget;
+    } catch (e, stackTrace) {
+      debugPrint('Error building section: $e\n$stackTrace');
+      return _buildErrorPlaceholder();
     }
+  }
+
+  Widget _buildErrorPlaceholder() {
+    return Container(
+      height: 120,
+      decoration: BoxDecoration(
+        color: Colors.red.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.red.withOpacity(0.3)),
+      ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.error_outline,
+              color: Colors.red.withOpacity(0.7),
+              size: 32,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Data Not Available',
+              style: TextStyle(
+                color: Colors.red.withOpacity(0.8),
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildLoadingOverlay() {
@@ -300,17 +305,18 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Future<void> _handleRefresh() async {
-    if (_isRefreshing) return; 
-    
+    if (_isRefreshing) return;
+
     setState(() => _isRefreshing = true);
-    
+
     try {
       HapticFeedback.mediumImpact();
-      
+
       await Future.delayed(const Duration(seconds: 2));
-      
+
+      // TODO: Uncomment when API is ready
       // await weatherService.refreshWeatherData();
-      
+
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
