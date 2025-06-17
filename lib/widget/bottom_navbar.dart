@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wheatherapp/screens/mainMenu_screen.dart';
-
+import 'dart:ui';
 class CustomBottomNavigation extends StatefulWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
@@ -12,8 +12,7 @@ class CustomBottomNavigation extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CustomBottomNavigation> createState() =>
-      _CustomBottomNavigationState();
+  State<CustomBottomNavigation> createState() => _CustomBottomNavigationState();
 }
 
 class _CustomBottomNavigationState extends State<CustomBottomNavigation>
@@ -24,6 +23,7 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation>
   @override
   void initState() {
     super.initState();
+
     _controllers = List.generate(
       3,
       (index) => AnimationController(
@@ -61,48 +61,51 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation>
 
   Widget _buildNavItem({
     required int index,
-    required Icon icon,
+    required IconData icon,
     required String label,
   }) {
     final isSelected = widget.currentIndex == index;
 
-    return GestureDetector(
-      onTap: () {
-        widget.onTap(index);
+    return Expanded(
+      child: Center(
+        child: GestureDetector(
+          onTap: () {
+            widget.onTap(index);
 
-        if (index == 2) {
-          Navigator.pushReplacement(
-            context,
-            PageRouteBuilder(
-              pageBuilder: (context, animation, secondaryAnimation) =>
-                  MainMenuScreen(),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                return FadeTransition(
-                  opacity: animation,
-                  child: child,
-                );
-              },
-            ),
-          );
-        }
-      },
-      child: ScaleTransition(
-        scale: _animations[index],
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            icon,
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                color: isSelected ? Colors.white : Colors.white60,
+            if (index == 2) {
+              Navigator.pushReplacement(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (_, a1, a2) => MainMenuScreen(),
+                  transitionsBuilder: (_, animation, __, child) {
+                    return FadeTransition(opacity: animation, child: child);
+                  },
+                ),
+              );
+            }
+          },
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ScaleTransition(
+                scale: _animations[index],
+                child: Icon(
+                  icon,
+                  size: 26,
+                  color: isSelected ? Colors.white : Colors.white70,
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 4),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                  color: isSelected ? Colors.white : Colors.white60,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -110,102 +113,93 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation>
 
   @override
   void dispose() {
-    for (final controller in _controllers) {
-      controller.dispose();
-    }
+    for (var controller in _controllers) controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
-      alignment: Alignment.bottomCenter,
-      children: [
-        Container(
-          height: 80,
-          child: CustomPaint(
-            painter: _NavBarPainter(color: const Color(0xFF3D346E)),
-            child: Container(),
-          ),
-        ),
-        Positioned(
-          bottom: 20,
-          child: ScaleTransition(
-            scale: _animations[1],
-            child: GestureDetector(
-              onTap: () => widget.onTap(1),
-              child: Container(
-                height: 70,
-                width: 70,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 8,
-                      offset: Offset(0, 4),
-                    ),
+    final mediaQuery = MediaQuery.of(context);
+    final width = mediaQuery.size.width;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(30),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+          child: Container(
+            height: 80,
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.15),
+              borderRadius: BorderRadius.circular(30),
+              border: Border.all(color: Colors.white.withOpacity(0.2)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.transparent.withOpacity(0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, -2),
+                ),
+              ],
+            ),
+            child: Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.bottomCenter,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _buildNavItem(index: 0, icon: Icons.home, label: "Home"),
+                    const Spacer(), 
+                    _buildNavItem(index: 2, icon: Icons.menu, label: "Menu"),
                   ],
                 ),
-                child:
-                    const Icon(Icons.add, color: Color(0xFF3D346E), size: 32),
-              ),
+
+                Positioned(
+                  bottom: 14,
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: ScaleTransition(
+                      scale: _animations[1],
+                      child: GestureDetector(
+                        onTap: () => widget.onTap(1),
+                        child: Container(
+                          height: 65,
+                          width: 65,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.white.withOpacity(0.9),
+                                Colors.white.withOpacity(0.7)
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: const Icon(
+                            Icons.add,
+                            color: Color(0xFF3D346E),
+                            size: 32,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
-        Positioned(
-          bottom: 0,
-          left: 0,
-          right: 0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildNavItem(
-                  index: 0,
-                  icon: const Icon(Icons.navigation, color: Colors.white),
-                  label: "Nav"),
-              const SizedBox(width: 70),
-              _buildNavItem(
-                  index: 2,
-                  icon: const Icon(Icons.menu, color: Colors.white),
-                  label: "Menu"),
-            ],
-          ),
-        ),
-      ],
+      ),
     );
   }
-}
-
-class _NavBarPainter extends CustomPainter {
-  final Color color;
-
-  _NavBarPainter({required this.color});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = color;
-    final path = Path();
-
-    path.moveTo(0, 0);
-    path.lineTo(size.width * 0.3, 0);
-    path.quadraticBezierTo(size.width * 0.38, 0, size.width * 0.4, 20);
-    path.arcToPoint(
-      Offset(size.width * 0.6, 20),
-      radius: const Radius.circular(30),
-      clockwise: false,
-    );
-    path.quadraticBezierTo(size.width * 0.62, 0, size.width * 0.7, 0);
-    path.lineTo(size.width, 0);
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, size.height);
-    path.close();
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

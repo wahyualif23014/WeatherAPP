@@ -258,29 +258,70 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Widget _buildBottomNavigation() {
-    try {
-      return CustomBottomNavigation(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          if (mounted && index != _currentIndex) {
-            setState(() => _currentIndex = index);
-            HapticFeedback.lightImpact();
-          }
-        },
-      );
-    } catch (e) {
-      return Container(
-        height: 80,
-        color: Colors.black.withOpacity(0.8),
-        child: const Center(
-          child: Text(
-            'Navigation Error',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-      );
-    }
+  try {
+    return CustomBottomNavigation(
+      currentIndex: _currentIndex,
+      onTap: (index) {
+        if (!mounted) return;
+
+        HapticFeedback.lightImpact(); // Feedback haptic saat tap
+
+        if (index != _currentIndex) {
+          setState(() {
+            _currentIndex = index;
+          });
+        }
+      },
+    );
+  } catch (e, stackTrace) {
+    debugPrint('Error building navigation: $e\n$stackTrace');
+    return _buildNavigationErrorPlaceholder();
   }
+}
+
+// Fallback UI saat error
+Widget _buildNavigationErrorPlaceholder() {
+  return Container(
+    height: 80,
+    margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+    decoration: BoxDecoration(
+      color: Colors.white.withOpacity(0.1),
+      borderRadius: BorderRadius.circular(30),
+      border: Border.all(color: Colors.red.withOpacity(0.4)),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.2),
+          blurRadius: 10,
+          offset: const Offset(0, 5),
+        ),
+      ],
+    ),
+    child: Center(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Icon(
+              Icons.error_outline,
+              color: Colors.red,
+              size: 20,
+            ),
+            SizedBox(width: 6),
+            Text(
+              'Navigation Error',
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
 
   PreferredSizeWidget _buildAnimatedAppBar() {
     return PreferredSize(
