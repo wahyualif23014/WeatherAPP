@@ -83,15 +83,14 @@ class _WeatherHeroSectionState extends State<WeatherHeroSection>
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Colors.deepPurple.withOpacity(0.2),
-                  Colors.purpleAccent.withOpacity(0.1),
+                  Colors.white.withOpacity(0.2),
+                  Colors.white.withOpacity(0.1),
                 ],
               ),
             ),
             padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 16),
             child: Column(
               children: [
-                // Weather Icon
                 ScaleTransition(
                   scale: _bounceAnimation,
                   child: ScaleTransition(
