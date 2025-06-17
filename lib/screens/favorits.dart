@@ -1,4 +1,3 @@
-// favorite.dart
 import 'package:flutter/material.dart';
 import '../widget/weather_favorite_card.dart';
 
