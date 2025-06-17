@@ -11,6 +11,7 @@ class GlassmorphicCard extends StatelessWidget {
   final double borderRadius;
   final double blurStrength;
   final double opacity;
+  final Gradient gradient;
   final VoidCallback? onTap;
   final bool enableBorder;
 
@@ -25,6 +26,7 @@ class GlassmorphicCard extends StatelessWidget {
     this.blurStrength = 10,
     this.opacity = 0.15,
     this.onTap,
+    required this.gradient,
     this.enableBorder = true,
   }) : super(key: key);
 
@@ -77,6 +79,7 @@ class AnimatedGlassmorphicCard extends StatefulWidget {
   final double borderRadius;
   final VoidCallback? onTap;
   final Duration animationDuration;
+  final Gradient gradient;
 
   const AnimatedGlassmorphicCard({
     Key? key,
@@ -88,6 +91,7 @@ class AnimatedGlassmorphicCard extends StatefulWidget {
     this.borderRadius = 20,
     this.onTap,
     this.animationDuration = const Duration(milliseconds: 200),
+    required this.gradient,
   }) : super(key: key);
 
   @override
@@ -154,6 +158,7 @@ class _AnimatedGlassmorphicCardState extends State<AnimatedGlassmorphicCard>
               margin: widget.margin,
               borderRadius: widget.borderRadius,
               opacity: _opacityAnimation.value,
+              gradient: widget.gradient,
               child: widget.child,
             ),
           );

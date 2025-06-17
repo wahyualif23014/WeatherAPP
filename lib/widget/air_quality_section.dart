@@ -100,6 +100,14 @@ class _AirQualitySectionState extends State<AirQualitySection>
           ),
         ),
         AnimatedGlassmorphicCard(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.white.withOpacity(0.2),
+              Colors.white.withOpacity(0.1),
+            ],
+          ),
           onTap: () {
             HapticFeedback.mediumImpact();
             _progressController.reset();

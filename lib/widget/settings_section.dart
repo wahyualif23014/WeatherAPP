@@ -16,6 +16,14 @@ class SettingsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GlassmorphicCard(
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Colors.white.withOpacity(0.2),
+          Colors.white.withOpacity(0.1),
+        ],
+      ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

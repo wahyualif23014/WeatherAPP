@@ -185,6 +185,14 @@ class _WeatherMetricsGridState extends State<WeatherMetricsGrid>
             duration: const Duration(milliseconds: 200),
             transform: Matrix4.identity(),
             child: AnimatedGlassmorphicCard(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  metric.color.withOpacity(0.2),
+                  metric.color.withOpacity(0.1),
+                ],
+              ),
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

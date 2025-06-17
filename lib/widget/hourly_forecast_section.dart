@@ -91,6 +91,14 @@ class _HourlyForecastSectionState extends State<HourlyForecastSection>
         ),
         GlassmorphicCard(
           padding: const EdgeInsets.symmetric(vertical: 20),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.white.withOpacity(0.2),
+              Colors.white.withOpacity(0.1),
+            ],
+          ),
           child: SlideTransition(
             position: _slideAnimation,
             child: SizedBox(

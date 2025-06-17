@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import '../widget/glassmorphic_card_weekly.dart'; // Ensure the correct file name and path
+
 
 class WeeklyForecastList extends StatelessWidget {
   const WeeklyForecastList({super.key});
@@ -16,7 +19,7 @@ class WeeklyForecastList extends StatelessWidget {
     ];
 
     return SizedBox(
-      height: 160,
+      height: 180,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: forecastData.length,
@@ -31,86 +34,122 @@ class WeeklyForecastList extends StatelessWidget {
     );
   }
 }
-class ForecastItem extends StatefulWidget{
+
+class ForecastItem extends StatefulWidget {
   final Map<String, dynamic> data;
 
   const ForecastItem({super.key, required this.data});
+
   @override
   State<ForecastItem> createState() => _ForecastItemState();
 }
-class _ForecastItemState extends State<ForecastItem>{
-  double _scale =1.0;
-  bool _ispressed = false;
+
+class _ForecastItemState extends State<ForecastItem>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
+  late Animation<double> _blurAnimation;
+
+  bool _isPressed = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
+
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeOut,
+      ),
+    );
+
+    _blurAnimation = Tween<double>(begin: 0.0, end: 5.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeOut,
+      ),
+    );
+  }
 
   void _onTapDown(TapDownDetails details) {
-    setState(() {
-      _ispressed = true;
-      _scale = 0.9;
-    });
+    HapticFeedback.lightImpact();
+    _controller.forward();
   }
-   void _onTapUp(TapUpDetails details) {
-    setState(() {
-      _ispressed = false;
-      _scale = 1.0;
-    });
+
+  void _onTapUp(TapUpDetails details) {
+    _controller.reverse();
   }
+
   void _onTapCancel() {
-    setState(() {
-      _ispressed = false;
-      _scale = 1.0;
-    });
+    _controller.reverse();
   }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTapDown: _onTapDown,
       onTapUp: _onTapUp,
       onTapCancel: _onTapCancel,
-      child: Transform.scale(
-        scale: _scale,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          width: 100,
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.white.withOpacity(0.2)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.blueGrey.withOpacity(0.2),
-                blurRadius: 8,
-                offset: const Offset(0, 4),
-              )
-            ],
-            backgroundBlendMode: BlendMode.multiply,
-          ),
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Text(
-                widget.data["day"],
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: Colors.white70,
-                  fontWeight: FontWeight.bold,
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, _) {
+          return Transform.scale(
+            scale: _scaleAnimation.value,
+            child: GlassmorphicCardweekly(
+              blur: 10 + (_blurAnimation.value * 10),
+              borderRadius: 16,
+              border: 1.5,
+              linearGradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.white.withOpacity(0.2),
+                  Colors.white.withOpacity(0.1),
+                ],
+              ),
+              child: Container(
+                width: 100,
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      widget.data["day"],
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Icon(
+                      widget.data["icon"],
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                    Text(
+                      "${widget.data["max"]}° / ${widget.data["min"]}°",
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.white70,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Icon(
-                widget.data["icon"],
-                color: Colors.white,
-                size: 30,
-              ),
-              Text(
-                "${widget.data["max"]}° / ${widget.data["min"]}°",
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
