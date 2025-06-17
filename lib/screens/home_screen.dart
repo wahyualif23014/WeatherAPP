@@ -263,7 +263,7 @@ class _HomeScreenState extends State<HomeScreen>
       onTap: (index) {
         if (!mounted) return;
 
-        HapticFeedback.lightImpact(); // Feedback haptic saat tap
+        HapticFeedback.lightImpact(); 
 
         if (index != _currentIndex) {
           setState(() {
