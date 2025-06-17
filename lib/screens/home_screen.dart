@@ -278,7 +278,6 @@ class _HomeScreenState extends State<HomeScreen>
   }
 }
 
-// Fallback UI saat error
 Widget _buildNavigationErrorPlaceholder() {
   return Container(
     height: 80,
