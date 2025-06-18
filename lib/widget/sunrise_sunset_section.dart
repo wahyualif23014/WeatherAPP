@@ -95,7 +95,6 @@ class _SunriseSunsetSectionState extends State<SunriseSunsetSection>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header
                 Row(
                   children: [
                     Container(
