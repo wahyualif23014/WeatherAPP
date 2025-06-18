@@ -1,4 +1,3 @@
-// sunrise_sunset_section.dart
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'dart:math' as math;
