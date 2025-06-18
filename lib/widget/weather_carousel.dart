@@ -34,3 +34,4 @@ class _WeatherCarouselState extends State<WeatherCarousel> {
     );
   }
 }
+//  konsepan ini adalah untuk membuat carousel cuaca yang menampilkan data cuaca per jam.
