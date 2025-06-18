@@ -161,3 +161,4 @@ class _WeatherFavoriteCardState extends State<WeatherFavoriteCard>
     );
   }
 }
+// Compare this snippet from lib/widget/weather_favorite_card.dart:
