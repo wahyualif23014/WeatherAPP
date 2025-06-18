@@ -125,7 +125,6 @@ class _WeatherHeroSectionState extends State<WeatherHeroSection>
 
                 const SizedBox(height: 20),
 
-                // Temperature
                 FadeTransition(
                   opacity: _bounceAnimation,
                   child: Transform.translate(
