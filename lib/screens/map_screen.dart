@@ -51,6 +51,7 @@ class _MapPageState extends State<MapPage> {
         return Marker(
           markerId: MarkerId("${loc.name}-${loc.lat},${loc.lng}"),
           position: LatLng(loc.lat, loc.lng),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
           infoWindow: InfoWindow(title: loc.name),
           onTap: () => _showWeatherDialog(context, loc.lat, loc.lng),
         );
@@ -88,7 +89,7 @@ class _MapPageState extends State<MapPage> {
   }
 
   void _showAddFavoriteDialog(BuildContext context, LatLng latLng) {
-    TextEditingController nameController = TextEditingController();
+    TextEditingController nameController = TextEditingController(text: "Lokasi Baru");
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -222,7 +223,7 @@ class _MapPageState extends State<MapPage> {
                   itemBuilder: (context, index) {
                     final loc = favoriteLocations[index];
                     return ListTile(
-                      leading: Icon(Icons.location_on),
+                      leading: Icon(Icons.location_on, color: Colors.red),
                       title: Text(loc.name),
                       subtitle: Text("${loc.lat}, ${loc.lng}"),
                       trailing: IconButton(
@@ -248,7 +249,7 @@ class _MapPageState extends State<MapPage> {
         actions: [
           IconButton(
             icon: Icon(Icons.favorite_outline),
-            onPressed: () => Navigator.pushNamed(context, '/favorite'),
+            onPressed: () => _showBottomSheetForFavorites(context),
           ),
         ],
       ),
@@ -262,7 +263,7 @@ class _MapPageState extends State<MapPage> {
             ),
             markers: _markers,
             onTap: (latLng) {
-              _moveTo(latLng);
+              _showAddFavoriteDialog(context, latLng);
             },
           ),
           Positioned(
