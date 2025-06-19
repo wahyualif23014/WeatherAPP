@@ -91,7 +91,6 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
       duration: const Duration(milliseconds: 1200),
       vsync: this,
     );
-
     _itemAnimations = List.generate(
       forecastData.length,
       (index) => Tween<double>(
@@ -106,7 +105,6 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
         ),
       )),
     );
-
     _animationController.forward();
   }
 
@@ -118,117 +116,211 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 4),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(24),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Container(
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Colors.white.withOpacity(0.2),
-                  Colors.white.withOpacity(0.1),
-                ],
-              ),
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(
-                color: Colors.white.withOpacity(0.2),
-                width: 1,
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.blue.withOpacity(0.8),
-                                Colors.purple.withOpacity(0.6),
-                              ],
-                            ),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Icon(
-                            Icons.calendar_today,
-                            color: Colors.white,
-                            size: 24,
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Text(
-                          '7-Day Forecast',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: Colors.white.withOpacity(0.2),
-                        ),
-                      ),
-                      child: Text(
-                        'Daily',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.white.withOpacity(0.8),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
+    final mediaQuery = MediaQuery.of(context);
+    final textScaleFactor = mediaQuery.textScaleFactor;
+
+    return LayoutBuilder(builder: (context, constraints) {
+      return Container(
+        margin: EdgeInsets.symmetric(horizontal: 4 * textScaleFactor),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(24 * textScaleFactor),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: Container(
+              padding: EdgeInsets.all(24 * textScaleFactor),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Colors.white.withOpacity(0.2),
+                    Colors.white.withOpacity(0.1),
                   ],
                 ),
-                
-                const SizedBox(height: 24),
-                
-                ...forecastData.asMap().entries.map((entry) {
-                  final index = entry.key;
-                  final data = entry.value;
-                  
-                  return AnimatedBuilder(
-                    animation: _itemAnimations[index],
-                    builder: (context, child) {
-                      return Transform.translate(
-                        offset: Offset(
-                          0,
-                          30 * (1 - _itemAnimations[index].value),
+                borderRadius: BorderRadius.circular(24 * textScaleFactor),
+                border: Border.all(
+                  color: Colors.white.withOpacity(0.2),
+                  width: 1 * textScaleFactor,
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Header
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(12 * textScaleFactor),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.blue.withOpacity(0.8),
+                                  Colors.purple.withOpacity(0.6),
+                                ],
+                              ),
+                              borderRadius:
+                                  BorderRadius.circular(16 * textScaleFactor),
+                            ),
+                            child: Icon(
+                              Icons.calendar_today,
+                              color: Colors.white,
+                              size: 24 * textScaleFactor,
+                            ),
+                          ),
+                          SizedBox(width: 16 * textScaleFactor),
+                          Text(
+                            '7-Day Forecast',
+                            style: TextStyle(
+                              fontSize: 20 * textScaleFactor,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 12 * textScaleFactor,
+                          vertical: 6 * textScaleFactor,
                         ),
-                        child: Opacity(
-                          opacity: _itemAnimations[index].value,
-                          child: _buildDailyForecastItem(data, index == 0),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.1),
+                          borderRadius:
+                              BorderRadius.circular(20 * textScaleFactor),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.2),
+                          ),
                         ),
-                      );
-                    },
-                  );
-                }).toList(),
-              ],
+                        child: Text(
+                          'Daily',
+                          style: TextStyle(
+                            fontSize: 12 * textScaleFactor,
+                            color: Colors.white.withOpacity(0.8),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 24 * textScaleFactor),
+                  ...forecastData.asMap().entries.map((entry) {
+                    final index = entry.key;
+                    final data = entry.value;
+                    return GestureDetector(
+                      onTap: () {
+                        _showBottomSheet(context, data);
+                      },
+                      child: AnimatedBuilder(
+                        animation: _itemAnimations[index],
+                        builder: (context, child) {
+                          return Transform.translate(
+                            offset: Offset(
+                              0,
+                              30 * (1 - _itemAnimations[index].value),
+                            ),
+                            child: Opacity(
+                              opacity: _itemAnimations[index].value,
+                              child: child,
+                            ),
+                          );
+                        },
+                        child: _buildDailyForecastItem(data, index == 0),
+                      ),
+                    );
+                  }).toList(),
+                ],
+              ),
             ),
           ),
         ),
+      );
+    });
+  }
+
+  void _showBottomSheet(BuildContext context, DailyWeatherData data) {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
+      backgroundColor: Colors.black.withOpacity(0.8),
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 48,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    data.icon,
+                    color: _getIconColor(data.icon),
+                    size: 40,
+                  ),
+                  SizedBox(width: 16),
+                  Text(
+                    "${data.highTemp}° / ${data.lowTemp}°",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 16),
+              Text(
+                "${data.condition}",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              ),
+              SizedBox(height: 8),
+              Row(
+                children: [
+                  Icon(Icons.water_drop, color: Colors.blue),
+                  SizedBox(width: 4),
+                  Text("${data.rainChance}% chance of rain"),
+                ],
+              ),
+              SizedBox(height: 8),
+              Row(
+                children: [
+                  Icon(Icons.air, color: Colors.white),
+                  SizedBox(width: 4),
+                  Text("Wind: ${data.windSpeed} km/h"),
+                ],
+              ),
+              SizedBox(height: 8),
+              Row(
+                children: [
+                  Icon(Icons.opacity, color: Colors.white),
+                  SizedBox(width: 4),
+                  Text("Humidity: ${data.humidity}%"),
+                ],
+              ),
+              SizedBox(height: 24),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -237,19 +329,18 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: isToday 
+        color: isToday
             ? Colors.white.withOpacity(0.15)
             : Colors.white.withOpacity(0.05),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isToday 
+          color: isToday
               ? Colors.white.withOpacity(0.3)
               : Colors.white.withOpacity(0.1),
         ),
       ),
       child: Row(
         children: [
-          // Day
           Expanded(
             flex: 2,
             child: Text(
@@ -261,7 +352,6 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
               ),
             ),
           ),
-          
           Expanded(
             flex: 3,
             child: Row(
@@ -317,7 +407,6 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
               ],
             ),
           ),
-          
           Expanded(
             flex: 2,
             child: Row(
