@@ -245,7 +245,7 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Peta Cuaca"),
+        title: Text("World Map"),
         actions: [
           IconButton(
             icon: Icon(Icons.favorite_outline),
