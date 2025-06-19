@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => HomeScreen(),
         '/forecast': (context) => ForecastScreen(),
         '/map': (context) => MapPage(initialLat: -6.2, initialLng: 106.8),
-        '/favorits': (context) => Favorite(), // ⚠️ Perhatikan penulisan "favorits"
+        '/favorits': (context) => Favorite(), 
         '/settings': (context) => SettingsScreen(),
       },
       onGenerateRoute: (settings) {
