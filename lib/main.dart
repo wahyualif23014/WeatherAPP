@@ -34,7 +34,6 @@ class MyApp extends StatelessWidget {
         '/settings': (context) => SettingsScreen(),
       },
       onGenerateRoute: (settings) {
-        // Ini akan menangani route dinamis atau rute yang tidak terdaftar
         switch (settings.name) {
           case '/favorite':
             // 🔁 Redirect ke /favorits jika ada navigasi ke /favorite
