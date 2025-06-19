@@ -29,9 +29,29 @@ class MyApp extends StatelessWidget {
         '/mainmenu': (context) => MainMenuScreen(),
         '/home': (context) => HomeScreen(),
         '/forecast': (context) => ForecastScreen(),
-        '/map': (context) => MapPage(initialLat: -6.2, initialLng: 106.8, openWeatherKey: dotenv.env['OPEN_WEATHER_API_KEY']!),
-        '/favorits': (context) => Favorite(),
+        '/map': (context) => MapPage(initialLat: -6.2, initialLng: 106.8),
+        '/favorits': (context) => Favorite(), // ⚠️ Perhatikan penulisan "favorits"
         '/settings': (context) => SettingsScreen(),
+      },
+      onGenerateRoute: (settings) {
+        // Ini akan menangani route dinamis atau rute yang tidak terdaftar
+        switch (settings.name) {
+          case '/favorite':
+            // 🔁 Redirect ke /favorits jika ada navigasi ke /favorite
+            return MaterialPageRoute(builder: (_) => Favorite());
+          default:
+            return null;
+        }
+      },
+      onUnknownRoute: (settings) {
+        // Jika semua cara gagal, tampilkan halaman error
+        return MaterialPageRoute(
+          builder: (_) => Scaffold(
+            body: Center(
+              child: Text('404 - Halaman tidak ditemukan'),
+            ),
+          ),
+        );
       },
       debugShowCheckedModeBanner: false,
     );

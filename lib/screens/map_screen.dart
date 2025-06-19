@@ -5,13 +5,11 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-
 class MapPage extends StatefulWidget {
   final double initialLat;
   final double initialLng;
-  final String openWeatherKey;
 
-  const MapPage({Key? key, this.initialLat = -6.2, this.initialLng = 106.8, required this.openWeatherKey})
+  const MapPage({Key? key, this.initialLat = -6.2, this.initialLng = 106.8})
       : super(key: key);
 
   @override
@@ -20,23 +18,25 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   late GoogleMapController mapController;
-  late Set<Marker> _markers = {};
   late LatLng _currentLocation;
-  List<FavoriteLocation> favoriteLocations = [];
+  late Set<Marker> _markers = {};
+  late List<FavoriteLocation> favoriteLocations = [];
+  late String openWeatherKey;
 
-  String openWeatherKey = dotenv.env['OPEN_WEATHER_API_KEY']!;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
-void initState() {
-  super.initState();
-  _currentLocation = LatLng(widget.initialLat, widget.initialLng);
-  openWeatherKey = dotenv.env['OPEN_WEATHER_API_KEY']!;
-  _loadFavorites();
-}
+  void initState() {
+    super.initState();
+    openWeatherKey = dotenv.env['OPEN_WEATHER_API_KEY']!;
+    _currentLocation = LatLng(widget.initialLat, widget.initialLng);
+    _loadFavorites();
+  }
 
   Future<void> _loadFavorites() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final favsJson = prefs.getStringList("favorites") ?? [];
+
     setState(() {
       favoriteLocations = favsJson.map((json) {
         final parts = json.split(",");
@@ -52,9 +52,7 @@ void initState() {
           markerId: MarkerId("${loc.name}-${loc.lat},${loc.lng}"),
           position: LatLng(loc.lat, loc.lng),
           infoWindow: InfoWindow(title: loc.name),
-          onTap: () {
-            _showWeatherDialog(context, loc.lat, loc.lng);
-          },
+          onTap: () => _showWeatherDialog(context, loc.lat, loc.lng),
         );
       }).toSet();
     });
@@ -63,13 +61,22 @@ void initState() {
   Future<void> _saveFavorite(FavoriteLocation location) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final existing = prefs.getStringList("favorites") ?? [];
-    final newEntry =
-        "${location.name},${location.lat},${location.lng}";
+    final newEntry = "${location.name},${location.lat},${location.lng}";
+
     if (!existing.contains(newEntry)) {
       existing.add(newEntry);
       await prefs.setStringList("favorites", existing);
       _loadFavorites();
     }
+  }
+
+  Future<void> _removeFavorite(FavoriteLocation location) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final existing = prefs.getStringList("favorites") ?? [];
+    final entryToRemove = "${location.name},${location.lat},${location.lng}";
+    existing.remove(entryToRemove);
+    await prefs.setStringList("favorites", existing);
+    _loadFavorites();
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -160,7 +167,78 @@ void initState() {
     }
   }
 
+  Future<void> _searchCity(String cityName) async {
+    final url =
+        "http://api.openweathermap.org/geo/1.0/direct?q=$cityName&limit=1&appid=$openWeatherKey";
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200 && response.body != "[]") {
+      final result = json.decode(response.body)[0];
+      final lat = result["lat"];
+      final lon = result["lon"];
+      final name = result["name"];
+
+      setState(() {
+        _currentLocation = LatLng(lat, lon);
+        _moveTo(_currentLocation);
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Ditemukan: $name")),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Lokasi tidak ditemukan")),
+      );
+    }
+  }
+
   double _kelvinToCelsius(double kelvin) => kelvin - 273.15;
+
+  void _showBottomSheetForFavorites(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (context) {
+        return Container(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Lokasi Favorit",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              Divider(),
+              if (favoriteLocations.isEmpty)
+                Text("Belum ada lokasi disimpan")
+              else
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: favoriteLocations.length,
+                  itemBuilder: (context, index) {
+                    final loc = favoriteLocations[index];
+                    return ListTile(
+                      leading: Icon(Icons.location_on),
+                      title: Text(loc.name),
+                      subtitle: Text("${loc.lat}, ${loc.lng}"),
+                      trailing: IconButton(
+                        icon: Icon(Icons.delete_outline),
+                        onPressed: () => _removeFavorite(loc),
+                      ),
+                      onTap: () => _moveTo(LatLng(loc.lat, loc.lng)),
+                    );
+                  },
+                ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -169,21 +247,67 @@ void initState() {
         title: Text("Peta Cuaca"),
         actions: [
           IconButton(
-            icon: Icon(Icons.add_location_alt),
-            onPressed: () => _showAddFavoriteDialog(context, _currentLocation),
+            icon: Icon(Icons.favorite_outline),
+            onPressed: () => Navigator.pushNamed(context, '/favorite'),
           ),
         ],
       ),
-      body: GoogleMap(
-        onMapCreated: _onMapCreated,
-        initialCameraPosition: CameraPosition(
-          target: _currentLocation,
-          zoom: 10,
-        ),
-        markers: _markers,
-        onTap: (latLng) {
-          _moveTo(latLng);
-        },
+      body: Stack(
+        children: [
+          GoogleMap(
+            onMapCreated: _onMapCreated,
+            initialCameraPosition: CameraPosition(
+              target: _currentLocation,
+              zoom: 10,
+            ),
+            markers: _markers,
+            onTap: (latLng) {
+              _moveTo(latLng);
+            },
+          ),
+          Positioned(
+            top: 16,
+            left: 16,
+            right: 16,
+            child: Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Row(
+                  children: [
+                    Icon(Icons.search),
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: TextField(
+                        controller: _searchController,
+                        decoration: InputDecoration(
+                          hintText: "Cari kota...",
+                          border: InputBorder.none,
+                        ),
+                        onSubmitted: (value) {
+                          if (value.isNotEmpty) {
+                            _searchCity(value);
+                          }
+                        },
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.send),
+                      onPressed: () {
+                        if (_searchController.text.isNotEmpty) {
+                          _searchCity(_searchController.text);
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _moveTo(_currentLocation),
@@ -203,4 +327,7 @@ class FavoriteLocation {
     required this.lat,
     required this.lng,
   });
+
+  @override
+  String toString() => "$name,$lat,$lng";
 }

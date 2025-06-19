@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widget/weather_favorite_card.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Favorite extends StatefulWidget {
   const Favorite({super.key});
@@ -9,32 +10,29 @@ class Favorite extends StatefulWidget {
 }
 
 class _FavoriteWeatherScreenState extends State<Favorite> {
-  final List<Map<String, dynamic>> favoriteLocations = [
-    {
-      'city': 'Jakarta',
-      'temperature': 32,
-      'condition': 'Sunny',
-      'icon': Icons.wb_sunny
-    },
-    {
-      'city': 'Tokyo',
-      'temperature': 24,
-      'condition': 'Cloudy',
-      'icon': Icons.cloud
-    },
-    {
-      'city': 'New York',
-      'temperature': 18,
-      'condition': 'Rainy',
-      'icon': Icons.umbrella
-    },
-    {
-      'city': 'Indonesia',
-      'temperature': 20,
-      'condition': 'Sunny',
-      'icon': Icons.wb_sunny,
-    },
-  ];
+  late List<FavoriteLocation> favoriteLocations = [];
+
+  Future<void> _loadSavedFavorites() async {
+    final prefs = await SharedPreferences.getInstance();
+    final favorites = prefs.getStringList("favorites") ?? [];
+
+    setState(() {
+      favoriteLocations = favorites.map((json) {
+        final parts = json.split(",");
+        return FavoriteLocation(
+          name: parts[0],
+          lat: double.parse(parts[1]),
+          lng: double.parse(parts[2]),
+        );
+      }).toList();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedFavorites();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +45,7 @@ class _FavoriteWeatherScreenState extends State<Favorite> {
       ),
       extendBodyBehindAppBar: true,
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -59,20 +57,42 @@ class _FavoriteWeatherScreenState extends State<Favorite> {
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: ListView.builder(
-            itemCount: favoriteLocations.length,
-            itemBuilder: (context, index) {
-              final location = favoriteLocations[index];
-              return WeatherFavoriteCard(
-                city: location['city'],
-                temperature: location['temperature'],
-                condition: location['condition'],
-                icon: location['icon'],
-              );
-            },
-          ),
+          child: favoriteLocations.isEmpty
+              ? Center(
+                  child: Text(
+                    "Belum ada lokasi favorit.",
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                )
+              : ListView.builder(
+                  itemCount: favoriteLocations.length,
+                  itemBuilder: (context, index) {
+                    final location = favoriteLocations[index];
+                    return WeatherFavoriteCard(
+                      city: location.name,
+                      temperature: 25, // Ambil dari API jika mau
+                      condition: "Cloudy",
+                      icon: Icons.wb_cloudy,
+                    );
+                  },
+                ),
         ),
       ),
     );
   }
+}
+
+class FavoriteLocation {
+  final String name;
+  final double lat;
+  final double lng;
+
+  FavoriteLocation({
+    required this.name,
+    required this.lat,
+    required this.lng,
+  });
+
+  @override
+  String toString() => "$name,$lat,$lng";
 }
