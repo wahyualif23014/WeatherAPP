@@ -5,8 +5,13 @@ import 'package:wheatherapp/screens/forecast_screen.dart';
 import 'package:wheatherapp/screens/map_screen.dart';
 import 'package:wheatherapp/screens/favorits.dart';
 import 'package:wheatherapp/screens/settings.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
+  print("✅ .env berhasil dimuat!");
+  print("OpenWeather API Key: ${dotenv.env['OPEN_WEATHER_API_KEY']}");
   runApp(const MyApp());
 }
 
@@ -24,7 +29,7 @@ class MyApp extends StatelessWidget {
         '/mainmenu': (context) => MainMenuScreen(),
         '/home': (context) => HomeScreen(),
         '/forecast': (context) => ForecastScreen(),
-        '/map': (context) => MapScreen(),
+        '/map': (context) => MapPage(initialLat: -6.2, initialLng: 106.8, openWeatherKey: dotenv.env['OPEN_WEATHER_API_KEY']!),
         '/favorits': (context) => Favorite(),
         '/settings': (context) => SettingsScreen(),
       },
