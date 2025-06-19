@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'dart:ui';
 
 class MapPage extends StatefulWidget {
   final double initialLat;
@@ -24,6 +25,10 @@ class _MapPageState extends State<MapPage> {
   late String openWeatherKey;
 
   final TextEditingController _searchController = TextEditingController();
+
+  // Untuk animasi marker
+  late Map<MarkerId, double> _markerAnimations = {};
+  final Duration _animationDuration = Duration(milliseconds: 600);
 
   @override
   void initState() {
@@ -47,15 +52,29 @@ class _MapPageState extends State<MapPage> {
         );
       }).toList();
 
-      _markers = favoriteLocations.map((loc) {
-        return Marker(
-          markerId: MarkerId("${loc.name}-${loc.lat},${loc.lng}"),
+      _markers.clear();
+      _markerAnimations.clear();
+
+      for (var loc in favoriteLocations) {
+        final markerId = MarkerId("${loc.name}-${loc.lat},${loc.lng}");
+        _markerAnimations[markerId] = 0.0;
+
+        _markers.add(Marker(
+          markerId: markerId,
           position: LatLng(loc.lat, loc.lng),
           icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
           infoWindow: InfoWindow(title: loc.name),
           onTap: () => _showWeatherDialog(context, loc.lat, loc.lng),
-        );
-      }).toSet();
+        ));
+
+        Future.delayed(_animationDuration * (_markers.length ~/ 2), () {
+          if (mounted) {
+            setState(() {
+              _markerAnimations[markerId] = 1.0;
+            });
+          }
+        });
+      }
     });
   }
 
@@ -67,8 +86,32 @@ class _MapPageState extends State<MapPage> {
     if (!existing.contains(newEntry)) {
       existing.add(newEntry);
       await prefs.setStringList("favorites", existing);
-      _loadFavorites();
+
+      final markerId = MarkerId("${location.name}-${location.lat},${location.lng}");
+
+      setState(() {
+        favoriteLocations.add(location);
+        _markerAnimations[markerId] = 0.0;
+
+        _markers.add(Marker(
+          markerId: markerId,
+          position: LatLng(location.lat, location.lng),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+          infoWindow: InfoWindow(title: location.name),
+          onTap: () => _showWeatherDialog(context, location.lat, location.lng),
+        ));
+      });
+
+      await Future.delayed(_animationDuration ~/ 2);
+
+      if (mounted) {
+        setState(() {
+          _markerAnimations[markerId] = 1.0;
+        });
+      }
     }
+
+    Navigator.pop(context);
   }
 
   Future<void> _removeFavorite(FavoriteLocation location) async {
@@ -77,7 +120,29 @@ class _MapPageState extends State<MapPage> {
     final entryToRemove = "${location.name},${location.lat},${location.lng}";
     existing.remove(entryToRemove);
     await prefs.setStringList("favorites", existing);
-    _loadFavorites();
+
+    setState(() {
+      favoriteLocations.remove(location);
+      _markers.removeWhere((marker) =>
+          marker.position.latitude == location.lat &&
+          marker.position.longitude == location.lng);
+    });
+  }
+
+  Future<void> _updateFavorite(int index, FavoriteLocation updatedLoc) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final existing = prefs.getStringList("favorites") ?? [];
+
+    final oldEntry =
+        "${favoriteLocations[index].name},${favoriteLocations[index].lat},${favoriteLocations[index].lng}";
+    final newEntry = "${updatedLoc.name},${updatedLoc.lat},${updatedLoc.lng}";
+
+    int pos = existing.indexOf(oldEntry);
+    if (pos != -1) {
+      existing[pos] = newEntry;
+      await prefs.setStringList("favorites", existing);
+      _loadFavorites();
+    }
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -90,6 +155,7 @@ class _MapPageState extends State<MapPage> {
 
   void _showAddFavoriteDialog(BuildContext context, LatLng latLng) {
     TextEditingController nameController = TextEditingController(text: "Lokasi Baru");
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -116,10 +182,49 @@ class _MapPageState extends State<MapPage> {
                   lat: latLng.latitude,
                   lng: latLng.longitude,
                 ));
-                Navigator.pop(context);
               }
             },
             child: Text("Simpan"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showEditFavoriteDialog(BuildContext context, int index) {
+    TextEditingController nameController =
+        TextEditingController(text: favoriteLocations[index].name);
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Ubah Nama Lokasi"),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: nameController,
+              decoration: InputDecoration(labelText: "Nama Baru"),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: Navigator.of(context).pop,
+            child: Text("Batal"),
+          ),
+          TextButton(
+            onPressed: () {
+              if (nameController.text.isNotEmpty) {
+                _updateFavorite(index, FavoriteLocation(
+                  name: nameController.text,
+                  lat: favoriteLocations[index].lat,
+                  lng: favoriteLocations[index].lng,
+                ));
+                Navigator.pop(context);
+              }
+            },
+            child: Text("Perbarui"),
           ),
         ],
       ),
@@ -226,9 +331,18 @@ class _MapPageState extends State<MapPage> {
                       leading: Icon(Icons.location_on, color: Colors.red),
                       title: Text(loc.name),
                       subtitle: Text("${loc.lat}, ${loc.lng}"),
-                      trailing: IconButton(
-                        icon: Icon(Icons.delete_outline),
-                        onPressed: () => _removeFavorite(loc),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.edit_outlined),
+                            onPressed: () => _showEditFavoriteDialog(context, index),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.delete_outline),
+                            onPressed: () => _removeFavorite(loc),
+                          ),
+                        ],
                       ),
                       onTap: () => _moveTo(LatLng(loc.lat, loc.lng)),
                     );
@@ -245,7 +359,7 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("World Map"),
+        title: Text("Peta Cuaca"),
         actions: [
           IconButton(
             icon: Icon(Icons.favorite_outline),
@@ -261,7 +375,10 @@ class _MapPageState extends State<MapPage> {
               target: _currentLocation,
               zoom: 10,
             ),
-            markers: _markers,
+            markers: _markers.map((marker) {
+              final opacity = _markerAnimations[marker.markerId] ?? 1.0;
+              return _buildAnimatedMarker(marker, opacity);
+            }).toSet(),
             onTap: (latLng) {
               _showAddFavoriteDialog(context, latLng);
             },
@@ -314,6 +431,14 @@ class _MapPageState extends State<MapPage> {
         onPressed: () => _moveTo(_currentLocation),
         child: Icon(Icons.my_location),
       ),
+    );
+  }
+
+  Marker _buildAnimatedMarker(Marker marker, double opacity) {
+    return marker.copyWith(
+      iconParam: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+      consumeTapEventsParam: opacity >= 0.8,
+      alphaParam: opacity,
     );
   }
 }
