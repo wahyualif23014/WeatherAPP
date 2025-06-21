@@ -257,4 +257,3 @@ class _WeatherHeroSectionState extends State<WeatherHeroSection>
     );
   }
 }
-// Compare this snippet from lib/widget/MonthlyForecastList.dart:
