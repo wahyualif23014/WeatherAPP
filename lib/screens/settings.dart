@@ -1,4 +1,3 @@
-// settings_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../widget/settings_item.dart';
@@ -19,13 +18,13 @@ class SettingsScreen extends StatelessWidget {
           const AnimatedBackground(opacity: 0.7),
           SafeArea(
             child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(), // Efek iOS-like
+              physics: const BouncingScrollPhysics(), 
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Pengaturan",
+                    "Settings",
                     style: Theme.of(context)
                         .textTheme
                         .headlineMedium
@@ -33,47 +32,47 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   const SettingsSection(
-                    title: "Umum",
+                    title: "General",
                     items: [
                       SettingsItem(
                           icon: Icons.person_outline,
-                          title: "Profil",
+                          title: "Profile",
                           onTap: null),
                       SettingsItem(
                           icon: Icons.notifications_outlined,
-                          title: "Notifikasi",
+                          title: "Notifcations",
                           onTap: null),
                       SettingsItem(
                           icon: Icons.language,
-                          title: "Bahasa",
+                          title: "Language",
                           onTap: null),
                     ],
                   ),
                   const SizedBox(height: 20),
                   const SettingsSection(
-                    title: "Privasi & Keamanan",
+                    title: "Privacy & Security",
                     items: [
                       SettingsItem(
                           icon: Icons.lock_outline,
-                          title: "Keamanan Akun",
+                          title: "Account Security",
                           onTap: null),
                       SettingsItem(
                           icon: Icons.fingerprint,
-                          title: "Autentikasi",
+                          title: "Autentications",
                           onTap: null),
                     ],
                   ),
                   const SizedBox(height: 20),
                   const SettingsSection(
-                    title: "Lainnya",
+                    title: "Others",
                     items: [
                       SettingsItem(
                           icon: Icons.help_outline,
-                          title: "Bantuan",
+                          title: "Help & Support",
                           onTap: null),
                       SettingsItem(
                           icon: Icons.info_outline,
-                          title: "Tentang Aplikasi",
+                          title: "About App",
                           onTap: null),
                     ],
                   ),
