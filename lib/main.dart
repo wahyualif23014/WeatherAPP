@@ -36,18 +36,18 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case '/favorite':
-            // 🔁 Redirect ke /favorits jika ada navigasi ke /favorite
+            // Redirect ke /favorits 
             return MaterialPageRoute(builder: (_) => Favorite());
           default:
             return null;
         }
       },
       onUnknownRoute: (settings) {
-        // Jika semua cara gagal, tampilkan halaman error
+        // Jika semua cara gagal, error
         return MaterialPageRoute(
           builder: (_) => Scaffold(
             body: Center(
-              child: Text('404 - Halaman tidak ditemukan'),
+              child: Text('404 - Not Found: ${settings.name}'),
             ),
           ),
         );

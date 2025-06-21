@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'weather_carousel.dart';
-import 'dart:ui';
 
 class WeatherExpandableSection extends StatefulWidget {
-  const WeatherExpandableSection({super.key});
 
   @override
   State<WeatherExpandableSection> createState() =>
