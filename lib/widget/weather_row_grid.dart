@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'weather_tile.dart';
 
 class WeatherRowGrid extends StatelessWidget {
-  const WeatherRowGrid({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -57,4 +56,3 @@ class WeatherRowGrid extends StatelessWidget {
     );
   }
 }
-//  
