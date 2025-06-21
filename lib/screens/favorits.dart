@@ -60,7 +60,7 @@ class _FavoriteWeatherScreenState extends State<Favorite> {
           child: favoriteLocations.isEmpty
               ? Center(
                   child: Text(
-                    "Belum ada lokasi favorit.",
+                    "There is no favorite location yet",
                     style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
                 )
