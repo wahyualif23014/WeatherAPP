@@ -309,4 +309,3 @@ class SunArcPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
 
-// This code defines a SunriseSunsetSection widget that displays sunrise and sunset times, along with a sun animation.
