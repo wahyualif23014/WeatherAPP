@@ -243,7 +243,7 @@ class _HomeScreenState extends State<HomeScreen>
               CircularProgressIndicator(),
               SizedBox(height: 16),
               Text(
-                'Memperbarui Data...',
+                'Update data...',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
