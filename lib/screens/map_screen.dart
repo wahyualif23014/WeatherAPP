@@ -25,7 +25,7 @@ class _MapPageState extends State<MapPage> {
 
   final TextEditingController _searchController = TextEditingController();
 
-  // Untuk animasi marker
+  // for animation marker
   late Map<MarkerId, double> _markerAnimations = {};
   final Duration _animationDuration = Duration(milliseconds: 600);
 
@@ -153,25 +153,25 @@ class _MapPageState extends State<MapPage> {
   }
 
   void _showAddFavoriteDialog(BuildContext context, LatLng latLng) {
-    TextEditingController nameController = TextEditingController(text: "Lokasi Baru");
+    TextEditingController nameController = TextEditingController(text: "New location");
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Simpan Lokasi Favorit"),
+        title: Text("Save Favorite Location"),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: nameController,
-              decoration: InputDecoration(labelText: "Nama Lokasi"),
+              decoration: InputDecoration(labelText: "Location Name"),
             ),
           ],
         ),
         actions: [
           TextButton(
             onPressed: Navigator.of(context).pop,
-            child: Text("Batal"),
+            child: Text("Cancel"),
           ),
           TextButton(
             onPressed: () {
@@ -183,7 +183,7 @@ class _MapPageState extends State<MapPage> {
                 ));
               }
             },
-            child: Text("Simpan"),
+            child: Text("Save"),
           ),
         ],
       ),
@@ -197,20 +197,20 @@ class _MapPageState extends State<MapPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Ubah Nama Lokasi"),
+        title: Text("Change Favorite Location Name"),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: nameController,
-              decoration: InputDecoration(labelText: "Nama Baru"),
+              decoration: InputDecoration(labelText: "New Location Name"),
             ),
           ],
         ),
         actions: [
           TextButton(
             onPressed: Navigator.of(context).pop,
-            child: Text("Batal"),
+            child: Text("Cancel"),
           ),
           TextButton(
             onPressed: () {
@@ -223,7 +223,7 @@ class _MapPageState extends State<MapPage> {
                 Navigator.pop(context);
               }
             },
-            child: Text("Perbarui"),
+            child: Text("Update"),
           ),
         ],
       ),
@@ -250,7 +250,7 @@ class _MapPageState extends State<MapPage> {
           actions: [
             TextButton(
               onPressed: Navigator.of(context).pop,
-              child: Text("Tutup"),
+              child: Text("Close"),
             )
           ],
         ),
@@ -289,11 +289,11 @@ class _MapPageState extends State<MapPage> {
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Ditemukan: $name")),
+        SnackBar(content: Text("Location Found: $name")),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Lokasi tidak ditemukan")),
+        SnackBar(content: Text("Location not found")),
       );
     }
   }
@@ -314,12 +314,12 @@ class _MapPageState extends State<MapPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                "Lokasi Favorit",
+                "Favorite Locations",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               Divider(),
               if (favoriteLocations.isEmpty)
-                Text("Belum ada lokasi disimpan")
+                Text("No favorite locations saved")
               else
                 ListView.builder(
                   shrinkWrap: true,
@@ -358,7 +358,7 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Peta Cuaca"),
+        title: Text("Map Page"),
         actions: [
           IconButton(
             icon: Icon(Icons.favorite_outline),
@@ -401,7 +401,7 @@ class _MapPageState extends State<MapPage> {
                       child: TextField(
                         controller: _searchController,
                         decoration: InputDecoration(
-                          hintText: "Cari kota...",
+                          hintText: "Search city...",
                           border: InputBorder.none,
                         ),
                         onSubmitted: (value) {
