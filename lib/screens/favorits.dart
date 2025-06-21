@@ -70,7 +70,7 @@ class _FavoriteWeatherScreenState extends State<Favorite> {
                     final location = favoriteLocations[index];
                     return WeatherFavoriteCard(
                       city: location.name,
-                      temperature: 25, // Ambil dari API jika mau
+                      temperature: 25, // mengambil API dari OpenWeather
                       condition: "Cloudy",
                       icon: Icons.wb_cloudy,
                     );
