@@ -75,7 +75,6 @@ class _HourlyForecastSectionState extends State<HourlyForecastSection>
               GestureDetector(
                 onTap: () {
                   HapticFeedback.lightImpact();
-                  // Navigate to detailed hourly view
                 },
                 child: Text(
                   "View All",
