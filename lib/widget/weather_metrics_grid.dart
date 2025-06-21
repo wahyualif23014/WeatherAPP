@@ -70,7 +70,7 @@ class _WeatherMetricsGridState extends State<WeatherMetricsGrid>
     _controllers = List.generate(
       metrics.length,
       (index) => AnimationController(
-        duration: Duration(milliseconds: 800 + (index * 100)),
+        duration: Duration(milliseconds: 810 + (index * 100)),
         vsync: this,
       ),
     );
@@ -92,7 +92,7 @@ class _WeatherMetricsGridState extends State<WeatherMetricsGrid>
 
   void _startAnimations() {
     for (int i = 0; i < _controllers.length; i++) {
-      Future.delayed(Duration(milliseconds: i * 150), () {
+      Future.delayed(Duration(milliseconds: i * 140), () {
         if (mounted) {
           _controllers[i].forward();
         }
@@ -291,4 +291,3 @@ class WeatherMetric {
     required this.description,
   });
 }
-// import 'animated_glassmorphic_card.dart';
