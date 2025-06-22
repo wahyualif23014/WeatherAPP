@@ -354,7 +354,6 @@ Widget _buildNavigationErrorPlaceholder() {
       await Future.delayed(const Duration(seconds: 2));
 
       // TODO: Uncomment when API is ready
-      // await weatherService.refreshWeatherData();
 
     } catch (e) {
       if (mounted) {
