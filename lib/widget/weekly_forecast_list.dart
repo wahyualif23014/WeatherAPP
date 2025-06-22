@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../widget/glassmorphic_card_weekly.dart'; // Ensure the correct file name and path
+import '../widget/glassmorphic_card_weekly.dart'; 
 
 
 class WeeklyForecastList extends StatelessWidget {
