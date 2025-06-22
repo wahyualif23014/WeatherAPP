@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:ui';
+
+import 'package:flutter/material.dart';
 
 class DailyForecastSection extends StatefulWidget {
   @override
@@ -117,17 +118,18 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    final textScaleFactor = mediaQuery.textScaleFactor;
+    final textScaleFactor = mediaQuery.textScaleFactor.clamp(0.8, 1.2); // batasi scaling
+    final fontSizeFactor = textScaleFactor * 0.8; // reduksi ukuran font
 
     return LayoutBuilder(builder: (context, constraints) {
       return Container(
-        margin: EdgeInsets.symmetric(horizontal: 4 * textScaleFactor),
+        margin: EdgeInsets.symmetric(horizontal: 4 * fontSizeFactor),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(24 * textScaleFactor),
+          borderRadius: BorderRadius.circular(20 * fontSizeFactor),
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: Container(
-              padding: EdgeInsets.all(24 * textScaleFactor),
+              padding: EdgeInsets.all(16 * fontSizeFactor),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
@@ -137,44 +139,40 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
                     Colors.white.withOpacity(0.1),
                   ],
                 ),
-                borderRadius: BorderRadius.circular(24 * textScaleFactor),
+                borderRadius: BorderRadius.circular(20 * fontSizeFactor),
                 border: Border.all(
                   color: Colors.white.withOpacity(0.2),
-                  width: 1 * textScaleFactor,
+                  width: 1 * fontSizeFactor,
                 ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Header
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
                         children: [
                           Container(
-                            padding: EdgeInsets.all(12 * textScaleFactor),
+                            padding: EdgeInsets.all(10 * fontSizeFactor),
                             decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.blue.withOpacity(0.8),
-                                  Colors.purple.withOpacity(0.6),
-                                ],
+                              gradient: const LinearGradient(
+                                colors: [Colors.blue, Colors.purple],
                               ),
                               borderRadius:
-                                  BorderRadius.circular(16 * textScaleFactor),
+                                  BorderRadius.circular(12 * fontSizeFactor),
                             ),
                             child: Icon(
                               Icons.calendar_today,
                               color: Colors.white,
-                              size: 24 * textScaleFactor,
+                              size: 20 * fontSizeFactor,
                             ),
                           ),
-                          SizedBox(width: 16 * textScaleFactor),
+                          SizedBox(width: 12 * fontSizeFactor),
                           Text(
                             '7-Day Forecast',
                             style: TextStyle(
-                              fontSize: 20 * textScaleFactor,
+                              fontSize: 16 * fontSizeFactor,
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
                             ),
@@ -183,13 +181,13 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
                       ),
                       Container(
                         padding: EdgeInsets.symmetric(
-                          horizontal: 12 * textScaleFactor,
-                          vertical: 6 * textScaleFactor,
+                          horizontal: 10 * fontSizeFactor,
+                          vertical: 4 * fontSizeFactor,
                         ),
                         decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.1),
                           borderRadius:
-                              BorderRadius.circular(20 * textScaleFactor),
+                              BorderRadius.circular(16 * fontSizeFactor),
                           border: Border.all(
                             color: Colors.white.withOpacity(0.2),
                           ),
@@ -197,7 +195,7 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
                         child: Text(
                           'Daily',
                           style: TextStyle(
-                            fontSize: 12 * textScaleFactor,
+                            fontSize: 10 * fontSizeFactor,
                             color: Colors.white.withOpacity(0.8),
                             fontWeight: FontWeight.w500,
                           ),
@@ -205,21 +203,19 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
                       ),
                     ],
                   ),
-                  SizedBox(height: 24 * textScaleFactor),
+                  SizedBox(height: 16 * fontSizeFactor),
                   ...forecastData.asMap().entries.map((entry) {
                     final index = entry.key;
                     final data = entry.value;
                     return GestureDetector(
-                      onTap: () {
-                        _showBottomSheet(context, data);
-                      },
+                      onTap: () => _showBottomSheet(context, data),
                       child: AnimatedBuilder(
                         animation: _itemAnimations[index],
                         builder: (context, child) {
                           return Transform.translate(
                             offset: Offset(
                               0,
-                              30 * (1 - _itemAnimations[index].value),
+                              20 * (1 - _itemAnimations[index].value),
                             ),
                             child: Opacity(
                               opacity: _itemAnimations[index].value,
@@ -227,7 +223,7 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
                             ),
                           );
                         },
-                        child: _buildDailyForecastItem(data, index == 0),
+                        child: _buildDailyForecastItem(data, index == 0, fontSizeFactor),
                       ),
                     );
                   }).toList(),
@@ -248,15 +244,17 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
       ),
       backgroundColor: Colors.black.withOpacity(0.8),
       builder: (context) {
+        final textScaleFactor = MediaQuery.of(context).textScaleFactor.clamp(0.8, 1.2);
+
         return Padding(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(20),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
                 child: Container(
-                  width: 48,
+                  width: 40,
                   height: 4,
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.3),
@@ -264,35 +262,35 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
                   ),
                 ),
               ),
-              SizedBox(height: 16),
+              SizedBox(height: 12),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
                     data.icon,
                     color: _getIconColor(data.icon),
-                    size: 40,
+                    size: 32,
                   ),
-                  SizedBox(width: 16),
+                  SizedBox(width: 12),
                   Text(
                     "${data.highTemp}° / ${data.lowTemp}°",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 20,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 16),
+              SizedBox(height: 12),
               Text(
                 "${data.condition}",
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 18,
+                  fontSize: 16,
                 ),
               ),
-              SizedBox(height: 8),
+              SizedBox(height: 6),
               Row(
                 children: [
                   Icon(Icons.water_drop, color: Colors.blue),
@@ -300,7 +298,7 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
                   Text("${data.rainChance}% chance of rain"),
                 ],
               ),
-              SizedBox(height: 8),
+              SizedBox(height: 6),
               Row(
                 children: [
                   Icon(Icons.air, color: Colors.white),
@@ -308,7 +306,7 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
                   Text("Wind: ${data.windSpeed} km/h"),
                 ],
               ),
-              SizedBox(height: 8),
+              SizedBox(height: 6),
               Row(
                 children: [
                   Icon(Icons.opacity, color: Colors.white),
@@ -316,7 +314,7 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
                   Text("Humidity: ${data.humidity}%"),
                 ],
               ),
-              SizedBox(height: 24),
+              SizedBox(height: 16),
             ],
           ),
         );
@@ -324,15 +322,15 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
     );
   }
 
-  Widget _buildDailyForecastItem(DailyWeatherData data, bool isToday) {
+  Widget _buildDailyForecastItem(DailyWeatherData data, bool isToday, double fontSizeFactor) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.only(bottom: 8 * fontSizeFactor),
+      padding: EdgeInsets.all(12 * fontSizeFactor),
       decoration: BoxDecoration(
         color: isToday
             ? Colors.white.withOpacity(0.15)
             : Colors.white.withOpacity(0.05),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(12 * fontSizeFactor),
         border: Border.all(
           color: isToday
               ? Colors.white.withOpacity(0.3)
@@ -346,7 +344,7 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
             child: Text(
               data.day,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 14 * fontSizeFactor,
                 fontWeight: isToday ? FontWeight.w600 : FontWeight.w500,
                 color: Colors.white,
               ),
@@ -357,18 +355,18 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
             child: Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: EdgeInsets.all(6 * fontSizeFactor),
                   decoration: BoxDecoration(
                     color: _getIconColor(data.icon).withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(8 * fontSizeFactor),
                   ),
                   child: Icon(
                     data.icon,
                     color: _getIconColor(data.icon),
-                    size: 20,
+                    size: 18 * fontSizeFactor,
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 10 * fontSizeFactor),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -376,31 +374,29 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
                       Text(
                         data.condition,
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 12 * fontSizeFactor,
                           fontWeight: FontWeight.w500,
                           color: Colors.white,
                         ),
                       ),
-                      if (data.rainChance > 0) ...[
-                        const SizedBox(height: 2),
+                      if (data.rainChance > 0)
                         Row(
                           children: [
                             Icon(
                               Icons.water_drop,
-                              size: 12,
+                              size: 10 * fontSizeFactor,
                               color: Colors.blue.withOpacity(0.7),
                             ),
                             const SizedBox(width: 4),
                             Text(
                               '${data.rainChance}%',
                               style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 10 * fontSizeFactor,
                                 color: Colors.white.withOpacity(0.7),
                               ),
                             ),
                           ],
                         ),
-                      ],
                     ],
                   ),
                 ),
@@ -415,29 +411,26 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
                 Text(
                   '${data.lowTemp}°',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 14 * fontSizeFactor,
                     color: Colors.white.withOpacity(0.6),
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: 6),
                 Container(
-                  width: 40,
-                  height: 6,
+                  width: 30,
+                  height: 4,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(3),
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.blue.withOpacity(0.5),
-                        Colors.orange.withOpacity(0.8),
-                      ],
+                    gradient: const LinearGradient(
+                      colors: [Colors.blue, Colors.orange],
                     ),
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: 6),
                 Text(
                   '${data.highTemp}°',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 14 * fontSizeFactor,
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
                   ),
