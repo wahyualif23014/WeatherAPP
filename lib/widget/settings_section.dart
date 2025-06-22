@@ -1,4 +1,3 @@
-// settings_section.dart
 import 'package:flutter/material.dart';
 import 'glassmorphic_card.dart';
 import 'settings_item.dart';
