@@ -118,7 +118,7 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    final textScaleFactor = mediaQuery.textScaleFactor.clamp(0.8, 1.2); // batasi scaling
+    final textScaleFactor = mediaQuery.textScaleFactor.clamp(0.8, 1.2); 
     final fontSizeFactor = textScaleFactor * 0.9;
 
     return LayoutBuilder(builder: (context, constraints) {
