@@ -1,4 +1,3 @@
-// settings_item.dart
 import 'package:flutter/material.dart';
 
 class SettingsItem extends StatelessWidget {
