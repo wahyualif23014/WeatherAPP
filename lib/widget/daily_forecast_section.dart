@@ -119,7 +119,7 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final textScaleFactor = mediaQuery.textScaleFactor.clamp(0.8, 1.2); // batasi scaling
-    final fontSizeFactor = textScaleFactor * 0.8; // reduksi ukuran font
+    final fontSizeFactor = textScaleFactor * 0.9;
 
     return LayoutBuilder(builder: (context, constraints) {
       return Container(
