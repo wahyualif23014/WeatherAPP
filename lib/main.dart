@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         }
       },
       onUnknownRoute: (settings) {
-        // Jika semua cara gagal, error
+        // Jika semua rute tidak ditemukan, tampilkan halaman 404
         return MaterialPageRoute(
           builder: (_) => Scaffold(
             body: Center(
