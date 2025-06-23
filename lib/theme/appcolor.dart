@@ -8,4 +8,11 @@ class AppColors {
   static const accent = Color(0xFF4CAF50);
   static const error = Color(0xFFF44336);
   static const warning = Color(0xFFFF9800);
+  static const success = Color(0xFF4CAF50);
+  static const info = Color(0xFF2196F3);
+  static const grey = Color(0xFF9E9E9E);
+  static const greyLight = Color(0xFFE0E0E0);
+  static const greyDark = Color(0xFF616161);
+  static const white = Color(0xFFFFFFFF);
+  static const black = Color(0xFF000000);
 }
