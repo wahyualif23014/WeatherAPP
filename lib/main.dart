@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case '/favorite':
-            // Redirect ke /favorits 
+            // Redirect to the Favorite screen
             return MaterialPageRoute(builder: (_) => Favorite());
           default:
             return null;
