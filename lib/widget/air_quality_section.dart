@@ -309,7 +309,6 @@ class AqiCircularProgressPainter extends CustomPainter {
     
     canvas.drawCircle(center, radius, backgroundPaint);
     
-    // Progress arc
     final progressPaint = Paint()
       ..color = color
       ..style = PaintingStyle.stroke
