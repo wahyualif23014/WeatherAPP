@@ -1,4 +1,3 @@
-// animated_background.dart
 import 'package:flutter/material.dart';
 
 class AnimatedBackground extends StatefulWidget {
