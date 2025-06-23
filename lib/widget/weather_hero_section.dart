@@ -1,4 +1,3 @@
-// widgets/weather_hero_section.dart
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
