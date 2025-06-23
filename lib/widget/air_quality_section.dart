@@ -159,7 +159,7 @@ class _AirQualitySectionState extends State<AirQualitySection>
                         },
                       ),
                       
-                      // AQI Value
+                      
                       AnimatedBuilder(
                         animation: _progressAnimation,
                         builder: (context, child) {
