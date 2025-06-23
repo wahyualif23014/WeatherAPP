@@ -301,7 +301,6 @@ class AqiCircularProgressPainter extends CustomPainter {
     final center = Offset(size.width / 2, size.height / 2);
     final radius = size.width / 2 - 10;
     
-    // Background arc
     final backgroundPaint = Paint()
       ..color = Colors.white.withOpacity(0.1)
       ..style = PaintingStyle.stroke
