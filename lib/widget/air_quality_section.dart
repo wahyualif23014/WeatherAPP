@@ -194,7 +194,6 @@ class _AirQualitySectionState extends State<AirQualitySection>
               
               const SizedBox(width: 20),
               
-              // AQI Details
               Expanded(
                 flex: 3,
                 child: Column(
