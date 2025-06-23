@@ -135,7 +135,7 @@ class _HourlyForecastSectionState extends State<HourlyForecastSection>
     return GestureDetector(
       onTap: () {
         HapticFeedback.lightImpact();
-        // Show detailed info for this hour
+        // Show detailed 
       },
       child: Container(
         width: 70,
@@ -157,7 +157,7 @@ class _HourlyForecastSectionState extends State<HourlyForecastSection>
               ),
             ),
             
-            // Weather Icon with Animation
+            // Weather Icon 
             TweenAnimationBuilder<double>(
               duration: Duration(milliseconds: 800 + (index * 100)),
               tween: Tween(begin: 0.0, end: weather.intensity),
@@ -204,8 +204,8 @@ class _HourlyForecastSectionState extends State<HourlyForecastSection>
                 ],
               ),
             ),
-            
-            // Precipitation indicator
+
+            // Indicator
             Container(
               width: 30,
               height: 4,
