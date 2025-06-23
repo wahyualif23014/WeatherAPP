@@ -6,4 +6,6 @@ class AppColors {
   static const light = Color(0xFFF5F5F5);
   static const dark = Color(0xFF121212);
   static const accent = Color(0xFF4CAF50);
+  static const error = Color(0xFFF44336);
+  static const warning = Color(0xFFFF9800);
 }
