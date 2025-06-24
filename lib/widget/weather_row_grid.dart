@@ -58,4 +58,5 @@ class WeatherRowGrid extends StatelessWidget {
 }
 // sabar yoo
 // haiii bisa lah
-// rencana kedepan menggunakan bloc saja 
+// rencana kedepan menggunakan bloc saja // dengan arsitetektur yang mudah di control nyaa
+
