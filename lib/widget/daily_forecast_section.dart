@@ -183,7 +183,6 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
                             ],
                           ),
                         ),
-                        // Widget di kanan ini akan mempertahankan ukurannya
                         Container(
                           padding: EdgeInsets.symmetric(
                             horizontal: 10 * fontSizeFactor,
@@ -419,7 +418,7 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
             ),
           ),
           Expanded(
-            flex: 3, // ✅ PERBAIKAN UTAMA: Diberi ruang lebih
+            flex: 3, // ✅ PERBAIKAN UTAMA: 
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
