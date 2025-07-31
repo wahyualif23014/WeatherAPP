@@ -133,7 +133,7 @@ class _WeatherMetricsGridState extends State<WeatherMetricsGrid>
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: crossAxisCount,
-            childAspectRatio: 1.1,
+            childAspectRatio: 0.95,
             crossAxisSpacing: 15,
             mainAxisSpacing: 15,
           ),
@@ -215,7 +215,7 @@ class _WeatherMetricsGridState extends State<WeatherMetricsGrid>
                       Text(
                         metric.unit,
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 14,
                           color: Colors.white.withOpacity(0.6),
                           fontWeight: FontWeight.w500,
                         ),
