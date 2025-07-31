@@ -94,17 +94,16 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
     );
     _itemAnimations = List.generate(
       forecastData.length,
-      (index) => Tween<double>(
-        begin: 0.0,
-        end: 1.0,
-      ).animate(CurvedAnimation(
-        parent: _animationController,
-        curve: Interval(
-          index * 0.1,
-          0.8 + (index * 0.1),
-          curve: Curves.easeOutCubic,
+      (index) => Tween<double>(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(
+          parent: _animationController,
+          curve: Interval(
+            index * 0.1,
+            0.8 + (index * 0.1),
+            curve: Curves.easeOutCubic,
+          ),
         ),
-      )),
+      ),
     );
     _animationController.forward();
   }
@@ -118,122 +117,134 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    final textScaleFactor = mediaQuery.textScaleFactor.clamp(0.8, 1.2); 
+    final textScaleFactor = mediaQuery.textScaleFactor.clamp(0.8, 1.2);
     final fontSizeFactor = textScaleFactor * 0.9;
 
-    return LayoutBuilder(builder: (context, constraints) {
-      return Container(
-        margin: EdgeInsets.symmetric(horizontal: 4 * fontSizeFactor),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20 * fontSizeFactor),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Container(
-              padding: EdgeInsets.all(16 * fontSizeFactor),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Colors.white.withOpacity(0.2),
-                    Colors.white.withOpacity(0.1),
-                  ],
-                ),
-                borderRadius: BorderRadius.circular(20 * fontSizeFactor),
-                border: Border.all(
-                  color: Colors.white.withOpacity(0.2),
-                  width: 1 * fontSizeFactor,
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.all(10 * fontSizeFactor),
-                            decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                colors: [Colors.blue, Colors.purple],
-                              ),
-                              borderRadius:
-                                  BorderRadius.circular(12 * fontSizeFactor),
-                            ),
-                            child: Icon(
-                              Icons.calendar_today,
-                              color: Colors.white,
-                              size: 20 * fontSizeFactor,
-                            ),
-                          ),
-                          SizedBox(width: 12 * fontSizeFactor),
-                          Text(
-                            '7-Day Forecast',
-                            style: TextStyle(
-                              fontSize: 16 * fontSizeFactor,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 10 * fontSizeFactor,
-                          vertical: 4 * fontSizeFactor,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.1),
-                          borderRadius:
-                              BorderRadius.circular(16 * fontSizeFactor),
-                          border: Border.all(
-                            color: Colors.white.withOpacity(0.2),
-                          ),
-                        ),
-                        child: Text(
-                          'Daily',
-                          style: TextStyle(
-                            fontSize: 10 * fontSizeFactor,
-                            color: Colors.white.withOpacity(0.8),
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Container(
+          margin: EdgeInsets.symmetric(horizontal: 4 * fontSizeFactor),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20 * fontSizeFactor),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: Container(
+                padding: EdgeInsets.all(16 * fontSizeFactor),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Colors.white.withOpacity(0.2),
+                      Colors.white.withOpacity(0.1),
                     ],
                   ),
-                  SizedBox(height: 16 * fontSizeFactor),
-                  ...forecastData.asMap().entries.map((entry) {
-                    final index = entry.key;
-                    final data = entry.value;
-                    return GestureDetector(
-                      onTap: () => _showBottomSheet(context, data),
-                      child: AnimatedBuilder(
-                        animation: _itemAnimations[index],
-                        builder: (context, child) {
-                          return Transform.translate(
-                            offset: Offset(
-                              0,
-                              20 * (1 - _itemAnimations[index].value),
+                  borderRadius: BorderRadius.circular(20 * fontSizeFactor),
+                  border: Border.all(
+                    color: Colors.white.withOpacity(0.2),
+                    width: 1 * fontSizeFactor,
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceBetween, // Boleh dihapus jika sudah pakai Expanded
+                      children: [
+                        // ✅ PERBAIKAN: Bungkus Row kiri dengan Expanded
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(10 * fontSizeFactor),
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [Colors.blue, Colors.purple],
+                                  ),
+                                  borderRadius: BorderRadius.circular(
+                                    12 * fontSizeFactor,
+                                  ),
+                                ),
+                                child: Icon(
+                                  Icons.calendar_today,
+                                  color: Colors.white,
+                                  size: 20 * fontSizeFactor,
+                                ),
+                              ),
+                              SizedBox(width: 12 * fontSizeFactor),
+                              Text(
+                                '7-Day Forecast',
+                                style: TextStyle(
+                                  fontSize: 16 * fontSizeFactor,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Widget di kanan ini akan mempertahankan ukurannya
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10 * fontSizeFactor,
+                            vertical: 4 * fontSizeFactor,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(
+                              16 * fontSizeFactor,
                             ),
-                            child: Opacity(
-                              opacity: _itemAnimations[index].value,
-                              child: child,
+                            border: Border.all(
+                              color: Colors.white.withOpacity(0.2),
                             ),
-                          );
-                        },
-                        child: _buildDailyForecastItem(data, index == 0, fontSizeFactor),
-                      ),
-                    );
-                  }).toList(),
-                ],
+                          ),
+                          child: Text(
+                            'Daily',
+                            style: TextStyle(
+                              fontSize: 10 * fontSizeFactor,
+                              color: Colors.white.withOpacity(0.8),
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 16 * fontSizeFactor),
+                    ...forecastData.asMap().entries.map((entry) {
+                      final index = entry.key;
+                      final data = entry.value;
+                      return GestureDetector(
+                        onTap: () => _showBottomSheet(context, data),
+                        child: AnimatedBuilder(
+                          animation: _itemAnimations[index],
+                          builder: (context, child) {
+                            return Transform.translate(
+                              offset: Offset(
+                                0,
+                                20 * (1 - _itemAnimations[index].value),
+                              ),
+                              child: Opacity(
+                                opacity: _itemAnimations[index].value,
+                                child: child,
+                              ),
+                            );
+                          },
+                          child: _buildDailyForecastItem(
+                            data,
+                            index == 0,
+                            fontSizeFactor,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 
   void _showBottomSheet(BuildContext context, DailyWeatherData data) {
@@ -244,7 +255,9 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
       ),
       backgroundColor: Colors.black.withOpacity(0.8),
       builder: (context) {
-        final textScaleFactor = MediaQuery.of(context).textScaleFactor.clamp(0.8, 1.2);
+        final textScaleFactor = MediaQuery.of(
+          context,
+        ).textScaleFactor.clamp(0.8, 1.2);
 
         return Padding(
           padding: const EdgeInsets.all(20),
@@ -266,11 +279,7 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    data.icon,
-                    color: _getIconColor(data.icon),
-                    size: 32,
-                  ),
+                  Icon(data.icon, color: _getIconColor(data.icon), size: 32),
                   SizedBox(width: 12),
                   Text(
                     "${data.highTemp}° / ${data.lowTemp}°",
@@ -285,10 +294,7 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
               SizedBox(height: 12),
               Text(
                 "${data.condition}",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                ),
+                style: TextStyle(color: Colors.white, fontSize: 16),
               ),
               SizedBox(height: 6),
               Row(
@@ -322,25 +328,31 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
     );
   }
 
-  Widget _buildDailyForecastItem(DailyWeatherData data, bool isToday, double fontSizeFactor) {
+  Widget _buildDailyForecastItem(
+    DailyWeatherData data,
+    bool isToday,
+    double fontSizeFactor,
+  ) {
     return Container(
       margin: EdgeInsets.only(bottom: 8 * fontSizeFactor),
       padding: EdgeInsets.all(12 * fontSizeFactor),
       decoration: BoxDecoration(
-        color: isToday
-            ? Colors.white.withOpacity(0.15)
-            : Colors.white.withOpacity(0.05),
+        color:
+            isToday
+                ? Colors.white.withOpacity(0.15)
+                : Colors.white.withOpacity(0.05),
         borderRadius: BorderRadius.circular(12 * fontSizeFactor),
         border: Border.all(
-          color: isToday
-              ? Colors.white.withOpacity(0.3)
-              : Colors.white.withOpacity(0.1),
+          color:
+              isToday
+                  ? Colors.white.withOpacity(0.3)
+                  : Colors.white.withOpacity(0.1),
         ),
       ),
       child: Row(
         children: [
           Expanded(
-            flex: 2,
+            flex: 3, // ✨ DIUBAH
             child: Text(
               data.day,
               style: TextStyle(
@@ -351,7 +363,7 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 4, // ✨ DIUBAH
             child: Row(
               children: [
                 Container(
@@ -378,6 +390,9 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
                           fontWeight: FontWeight.w500,
                           color: Colors.white,
                         ),
+                        overflow:
+                            TextOverflow.ellipsis, // Tambahan untuk keamanan
+                        maxLines: 1,
                       ),
                       if (data.rainChance > 0)
                         Row(
@@ -404,10 +419,11 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
             ),
           ),
           Expanded(
-            flex: 2,
+            flex: 3, // ✅ PERBAIKAN UTAMA: Diberi ruang lebih
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                const Spacer(),
                 Text(
                   '${data.lowTemp}°',
                   style: TextStyle(
