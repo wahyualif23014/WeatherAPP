@@ -222,11 +222,11 @@ class _WeatherMetricsGridState extends State<WeatherMetricsGrid>
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 10),
                   Text(
                     metric.title,
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 10,
                       color: Colors.white.withOpacity(0.8),
                       fontWeight: FontWeight.w500,
                     ),
