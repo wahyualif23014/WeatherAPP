@@ -147,7 +147,7 @@ class _WeatherMetricsGridState extends State<WeatherMetricsGrid>
                   child: Transform.translate(
                     offset: Offset(0, 20 * (1 - _animations[index].value)),
                     child: Opacity(
-                      opacity: _animations[index].value,
+                      opacity: _animations[index].value.clamp(0.0, 1.0),
                       child: _buildMetricCard(metrics[index], index),
                     ),
                   ),
