@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'glassmorphic_card.dart';
+import '../glassmorphic_card.dart';
 
 class HourlyForecastSection extends StatefulWidget {
   @override

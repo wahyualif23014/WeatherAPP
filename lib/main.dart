@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:wheatherapp/screens/home_screen.dart';
-import 'package:wheatherapp/screens/mainMenu_screen.dart';
-import 'package:wheatherapp/screens/forecast_screen.dart';
-import 'package:wheatherapp/screens/map_screen.dart';
-import 'package:wheatherapp/screens/favorits.dart';
+import 'package:wheatherapp/screens/page_home_screen.dart';
+import 'package:wheatherapp/screens/page_mainMenu_screen.dart';
+import 'package:wheatherapp/screens/page_forecast_screen.dart';
+import 'package:wheatherapp/screens/page_map_screen.dart';
+import 'package:wheatherapp/screens/page_favorits.dart';
 import 'package:wheatherapp/screens/settings.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -43,7 +43,6 @@ class MyApp extends StatelessWidget {
         }
       },
       onUnknownRoute: (settings) {
-        // Jika semua rute tidak ditemukan, tampilkan halaman 404
         return MaterialPageRoute(
           builder: (_) => Scaffold(
             body: Center(

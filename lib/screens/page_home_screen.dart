@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../widget/animated_background.dart';
-import '../widget/weather_hero_section.dart';
-import '../widget/weather_metrics_grid.dart';
-import '../widget/hourly_forecast_section.dart';
-import '../widget/daily_forecast_section.dart';
-import '../widget/air_quality_section.dart';
-import '../widget/sunrise_sunset_section.dart';
+import '../widget/Home/weather_hero_section.dart';
+import '../widget/Home/weather_metrics_grid.dart';
+import '../widget/Home/hourly_forecast_section.dart';
+import '../widget/Home/daily_forecast_section.dart';
+import '../widget/Home/air_quality_section.dart';
+import '../widget/Home/sunrise_sunset_section.dart';
 import '../widget/bottom_navbar.dart';
 
 class HomeScreen extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'glassmorphic_card.dart';
+import '../glassmorphic_card.dart';
 import 'dart:math' as math;
 
 class AirQualitySection extends StatefulWidget {
