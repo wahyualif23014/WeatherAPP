@@ -148,7 +148,11 @@ class _HomeScreenState extends State<HomeScreen>
             children: [
               const SizedBox(height: 30),
 
-              _buildSection(() => WeatherHeroSection()),
+              _buildSection(() => WeatherHeroSection(
+                    latitude: 37.7749,
+                    longitude: -122.4194,
+                    locationName: "San Francisco",
+                  )),
 
               const SizedBox(height: 25),
 
